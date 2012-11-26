@@ -1,0 +1,9 @@
+﻿@model _5Bites.Models.StoreTransferModel
+
+<h3>Transfer Inventory</h3>
+@using (Html.BeginForm("Transfer", "Store"))
+{
+    <p>From: @Html.DropDownListFor(model => model.FromId, new SelectList(ViewBag.Locations, "Id", "Name"))</p>
+    <p>To: @Html.DropDownListFor(model => model.ToId, new SelectList(ViewBag.Locations, "Id", "Name"))</p>
+    <input type="submit" value="Transfer" />
+}

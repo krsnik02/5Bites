@@ -41,7 +41,6 @@ namespace _5Bites.Controllers
                 connection.Close();
             }
 
-
             {   /* Ascessible Stores */
                 ViewBag.Stores = new List<StoreModel>();
                 connection.Open();

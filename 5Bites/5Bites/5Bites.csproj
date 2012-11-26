@@ -169,6 +169,7 @@
     </Compile>
     <Compile Include="Models\EmployeeLoginModel.cs" />
     <Compile Include="Models\LocationModel.cs" />
+    <Compile Include="Models\ProductQuantityModel.cs" />
     <Compile Include="Models\StoreModel.cs" />
     <Compile Include="Models\StoreTransferModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -275,6 +276,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\Public.cshtml" />
     <Content Include="Views\Employee\Login.cshtml" />
+    <Content Include="Views\Shared\_TransferSelect.cshtml" />
+    <Content Include="Views\Store\Transfer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

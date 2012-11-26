@@ -10,13 +10,7 @@
     }
 </p>
 
-<h3>Transfer Inventory</h3>
-@using (Html.BeginForm("Transfer", "Store"))
-{
-    @Html.DropDownList("FromId", new SelectList(ViewBag.Locations, "Id", "Name"))
-    @Html.DropDownList("ToId", new SelectList(ViewBag.Locations, "Id", "Name"))
-    <input type="submit" value="Transfer" />
-}
+@Html.Partial("_TransferSelect")
 
 <h3>Administration</h3>
 @if (ViewBag.IsAdmin)
