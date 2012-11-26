@@ -6,13 +6,7 @@
 
 <h2>Welcome @Model.EmployeeName!</h2>
 
-<h3>Sell Items</h3>
-<p>
-    @foreach (var store in Model.Stores)
-    {
-        @Html.ActionLink(store.Name, "Sell", "Store", new { id = store.Id }, new { })
-    }
-</p>
+<p>@Html.ActionLink("Sell Items", "Sell", "Store")</p>
 
 <h3>Transfer Inventory</h3>
 @using (Html.BeginForm("Transfer", "Store"))

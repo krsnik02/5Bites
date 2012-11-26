@@ -10,11 +10,12 @@ namespace _5Bites.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         public ActionResult Index()
         {
             int? EmployeeId = (int?)Session.Contents["EmployeeId"];
             if (EmployeeId == null)
-                return RedirectToAction("Public", "Home");
+                return RedirectToAction("Inventory", "Store");
 
             var model = new HomeIndexViewModel();
             var connection = new SqlConnection(@"
@@ -73,34 +74,6 @@ namespace _5Bites.Controllers
                 while (reader.Read())
                 {
                     model.Locations.Add(new LocationModel
-                    {
-                        Id = int.Parse(reader["Id"].ToString()),
-                        Name = reader["Name"].ToString()
-                    });
-                }
-                connection.Close();
-            }
-
-            return View(model);
-        }
-
-        public ActionResult Public()
-        {
-            var model = new HomePublicViewModel();
-            var connection = new SqlConnection(@"
-                Integrated Security = true;
-                Data Source = (local)\SQLExpress;
-                Initial Catalog = 5Bites;");
-
-            {
-                connection.Open();
-                var command = new SqlCommand(@"
-                    SELECT s.Id, l.Name FROM Store s
-                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId", connection);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    model.Stores.Add(new StoreModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString()

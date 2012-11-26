@@ -1,0 +1,51 @@
+﻿@model _5Bites.Models.StoreInventoryViewModel
+
+@{
+    ViewBag.Title = "Inventory";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#store-tabs').tabs();
+        });
+    </script>
+}
+
+<h2>Current Inventory</h2>
+
+<div id="store-tabs">
+    <ul>
+        @foreach (var store in Model.Stores)
+        {
+            <li><a href="@("#tab-" + store.StoreId)">@store.StoreName</a></li>
+        }
+    </ul>
+    @foreach (var store in Model.Stores)
+    {
+        <div id="@("tab-" + store.StoreId)">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in store.Inventory)
+                    {
+                        <tr>
+                            <td>@Html.FormatValue(product.Description, "{0}")</td>
+                            <td>@Html.FormatValue(product.Price, "{0:C2}")</td>
+                            <td>@Html.FormatValue(product.Quantity, "{0}")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

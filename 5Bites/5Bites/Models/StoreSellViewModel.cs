@@ -7,12 +7,11 @@ namespace _5Bites.Models
 {
     public class StoreSellViewModel
     {
-        public string StoreName { get; set; }
-        public List<ProductSaleModel> Inventory { get; set; }
+        public List<StoreSellModel> Stores { get; set; }
 
         public StoreSellViewModel()
         {
-            Inventory = new List<ProductSaleModel>();
+            Stores = new List<StoreSellModel>();
         }
     }
 }

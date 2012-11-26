@@ -5,9 +5,11 @@ using System.Web;
 
 namespace _5Bites.Models
 {
-    public class StoreModel
+    public class ProductSellModel
     {
         public int Id { get; set; }
-        public String Name { get; set; }
+        public string Description { get; set; }
+        public float Price { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -10,6 +10,58 @@ namespace _5Bites.Controllers
 {
     public class StoreController : Controller
     {
+        [HttpGet]
+        public ActionResult Inventory()
+        {
+            var m = new StoreInventoryViewModel();
+
+            var con = new SqlConnection(
+                @"Integrated Security = true;
+                Data Source = (local)\SQLExpress;
+                Initial Catalog = 5Bites;");
+
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT s.Id, l.Name FROM Store s
+                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId", con);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    m.Stores.Add(new StoreInventoryModel
+                    {
+                        StoreId = int.Parse(reader["Id"].ToString()),
+                        StoreName = reader["Name"].ToString()
+                    });
+                }
+                con.Close();
+            }
+
+            for (int i = 0; i < m.Stores.Count; ++i)
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT p.Name, p.RetailPrice, i.Quantity FROM Store s
+                    LEFT OUTER JOIN Inventory i ON i.LocationId = s.LocationId
+                    LEFT OUTER JOIN Product p ON p.Id = i.ProductId
+                    WHERE s.Id = @StoreId", con);
+                command.Parameters.AddWithValue("@StoreId", m.Stores[i].StoreId);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    m.Stores[i].Inventory.Add(new ProductInventoryModel
+                    {
+                        Description = reader["Name"].ToString(),
+                        Price = float.Parse(reader["RetailPrice"].ToString()),
+                        Quantity = int.Parse(reader["Quantity"].ToString())
+                    });
+                }
+                con.Close();
+            }
+
+            return View(m);
+        }
+
         [HttpPost]
         public ActionResult Transfer(HomeIndexViewModel model)
         {
@@ -23,151 +75,115 @@ namespace _5Bites.Controllers
         }
 
         [HttpGet]
-        public ActionResult Public(int id)
+        public ActionResult Sell()
         {
-            var model = new StorePublicViewModel();
-            var connection = new SqlConnection(@"
-                Integrated Security = true;
+            var m = new StoreSellViewModel();
+
+            var con = new SqlConnection(
+                @"Integrated Security = true;
                 Data Source = (local)\SQLExpress;
                 Initial Catalog = 5Bites;");
 
             {
-                connection.Open();
-                var command = new SqlCommand(@"
-                    SELECT l.Name FROM Store s
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT s.Id, l.Name FROM EmployeeStore es
+                    LEFT OUTER JOIN Store s ON s.Id = es.StoreId
                     LEFT OUTER JOIN Location l ON l.Id = s.LocationId
-                    WHERE s.Id = @StoreId", connection);
-                command.Parameters.AddWithValue("@StoreId", id);
-                model.StoreName = (string)command.ExecuteScalar();
-                connection.Close();
-            }
-
-            {
-                connection.Open();
-                var command = new SqlCommand(@"
-                    SELECT p.Id, p.Name, p.RetailPrice, i.Quantity FROM Store s
-                    LEFT OUTER JOIN Inventory i ON i.LocationId = s.LocationId
-                    LEFT OUTER JOIN Product p ON p.Id = i.ProductId
-                    WHERE s.Id = @StoreId", connection);
-                command.Parameters.AddWithValue("@StoreId", id);
+                    WHERE es.EmployeeId = @EmployeeId", con);
+                command.Parameters.AddWithValue("@EmployeeId", Session.Contents["EmployeeId"]);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    model.Inventory.Add(new ProductSaleModel
+                    m.Stores.Add(new StoreSellModel
+                    {
+                        StoreId = int.Parse(reader["Id"].ToString()),
+                        StoreName = reader["Name"].ToString()
+                    });
+                }
+                con.Close();
+            }
+
+            for (int i = 0; i < m.Stores.Count; ++i)
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT p.Id, p.Name, p.RetailPrice, i.Quantity FROM Store s
+                    LEFT OUTER JOIN Inventory i ON i.LocationId = s.LocationId
+                    LEFT OUTER JOIN Product p ON p.Id = i.ProductId
+                    WHERE s.Id = @StoreId", con);
+                command.Parameters.AddWithValue("@StoreId", m.Stores[i].StoreId);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    m.Stores[i].Inventory.Add(new ProductSellModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
-                        Name = reader["Name"].ToString(),
+                        Description = reader["Name"].ToString(),
                         Price = float.Parse(reader["RetailPrice"].ToString()),
                         Quantity = int.Parse(reader["Quantity"].ToString())
                     });
                 }
-                connection.Close();
+                con.Close();
             }
 
-            return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult Sell(int id)
-        {
-            var model = new StoreSellViewModel();
-            var connection = new SqlConnection(@"
-                Integrated Security = true;
-                Data Source = (local)\SQLExpress;
-                Initial Catalog = 5Bites;");
-
-            {
-                connection.Open();
-                var command = new SqlCommand(@"
-                    SELECT l.Name FROM Store s
-                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId
-                    WHERE s.Id = @StoreId", connection);
-                command.Parameters.AddWithValue("@StoreId", id);
-                model.StoreName = (string)command.ExecuteScalar();
-                connection.Close();
-            }
-
-            {
-                connection.Open();
-                var command = new SqlCommand(@"
-                    SELECT p.Id, p.Name, p.RetailPrice, i.Quantity FROM Store s
-                    LEFT OUTER JOIN Inventory i ON i.LocationId = s.LocationId
-                    LEFT OUTER JOIN Product p ON p.Id = i.ProductId
-                    WHERE s.Id = @StoreId", connection);
-                command.Parameters.AddWithValue("@StoreId", id);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    model.Inventory.Add(new ProductSaleModel
-                    {
-                        Id = int.Parse(reader["Id"].ToString()),
-                        Name = reader["Name"].ToString(),
-                        Price = float.Parse(reader["RetailPrice"].ToString()),
-                        Quantity = int.Parse(reader["Quantity"].ToString())
-                    });
-                }
-                connection.Close();
-            }
-
-            return View(model);
+            return View(m);
         }
 
         [HttpPost]
-        public ActionResult Sell(int id, StoreSellViewModel model)
+        public ActionResult Sell(StoreSellModel m)
         {
-            int EmployeeId = (int)Session.Contents["EmployeeId"];
-
-            var connection = new SqlConnection(@"
-                Integrated Security = true;
+            var con = new SqlConnection(
+                @"Integrated Security = true;
                 Data Source = (local)\SQLExpress;
                 Initial Catalog = 5Bites;");
 
             float TotalPrice = 0;
-            foreach (var product in model.Inventory)
+            foreach (var product in m.Inventory)
             {
                 if (product.Quantity != 0)
                 {
                     TotalPrice += product.Price * product.Quantity;
 
                     {
-                        connection.Open();
+                        con.Open();
                         var command = new SqlCommand(@"
                             INSERT INTO [Transaction](ProductId, StoreId, EmployeeId, Quantity, Timestamp)
-                            VALUES (@ProductId, @StoreId, @EmployeeId, @Quantity, GETDATE())", connection);
+                            VALUES (@ProductId, @StoreId, @EmployeeId, @Quantity, GETDATE())", con);
                         command.Parameters.AddWithValue("@ProductId", product.Id);
-                        command.Parameters.AddWithValue("@StoreId", id);
-                        command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                        command.Parameters.AddWithValue("@StoreId", m.StoreId);
+                        command.Parameters.AddWithValue("@EmployeeId", (int)Session.Contents["EmployeeId"]);
                         command.Parameters.AddWithValue("@Quantity", product.Quantity);
                         command.ExecuteNonQuery();
-                        connection.Close();
+                        con.Close();
                     }
 
                     {
-                        connection.Open();
+                        con.Open();
                         var command = new SqlCommand(@"
                             UPDATE Inventory SET Quantity = Quantity - @QuantitySold 
                             WHERE LocationId IN (SELECT LocationId FROM Store WHERE Id = @StoreId) 
-                            AND ProductId = @ProductId", connection);
-                        command.Parameters.AddWithValue("@StoreId", id);
+                            AND ProductId = @ProductId", con);
+                        command.Parameters.AddWithValue("@StoreId", m.StoreId);
                         command.Parameters.AddWithValue("@ProductId", product.Id);
                         command.Parameters.AddWithValue("@QuantitySold", product.Quantity);
                         command.ExecuteNonQuery();
-                        connection.Close();
+                        con.Close();
                     }
                 }
             }
 
             {
-                connection.Open();
+                con.Open();
                 var command = new SqlCommand(@"
-                    UPDATE Store SET Bank = Bank + @TotalSale WHERE Id = @StoreId", connection);
-                command.Parameters.AddWithValue("@StoreId", id);
+                    UPDATE Store SET Bank = Bank + @TotalSale WHERE Id = @StoreId", con);
+                command.Parameters.AddWithValue("@StoreId", m.StoreId);
                 command.Parameters.AddWithValue("@TotalSale", TotalPrice);
                 command.ExecuteNonQuery();
-                connection.Close();
+                con.Close();
             }
 
-            return RedirectToAction("Sell", "Store", new { id = id });
+            return RedirectToAction("Sell", "Store");
         }
     }
 }
