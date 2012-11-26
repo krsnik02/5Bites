@@ -50,5 +50,12 @@ namespace _5Bites.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            Session.Contents["EmployeeId"] = null;
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

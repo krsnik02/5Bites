@@ -1,2 +1,9 @@
-﻿
+﻿@using _5Bites.Models
+
 <h2>Store Inventory</h2>
+
+<h3>Choose a Store</h3>
+@foreach (StoreModel store in ViewBag.Stores)
+{
+    @Html.ActionLink(store.Name, "Public", "Store", new { id = store.Id }, new { })
+}

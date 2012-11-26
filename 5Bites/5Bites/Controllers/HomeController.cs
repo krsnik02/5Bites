@@ -57,7 +57,29 @@ namespace _5Bites.Controllers
 
         public ActionResult Public()
         {
-            ViewBag.Message = "Your app description page.";
+            var connection = new SqlConnection(@"
+                Integrated Security = true;
+                Data Source = (local)\SQLExpress;
+                Initial Catalog = 5Bites;");
+
+            {
+                ViewBag.Stores = new List<StoreModel>();
+                connection.Open();
+                var command = new SqlCommand(@"
+                    SELECT s.Id, l.Name FROM Store s
+                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId", connection);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    ViewBag.Stores.Add(new StoreModel
+                    {
+                        Id = int.Parse(reader["Id"].ToString()),
+                        Name = reader["Name"].ToString()
+                    });
+                }
+                connection.Close();
+            }
+
             return View();
         }
     }
