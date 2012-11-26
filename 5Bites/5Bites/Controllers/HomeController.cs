@@ -43,26 +43,6 @@ namespace _5Bites.Controllers
                 connection.Close();
             }
 
-            {   /* Ascessible Stores */
-                connection.Open();
-                var command = new SqlCommand(@"
-                    SELECT s.Id, l.Name FROM EmployeeStore es
-                    LEFT OUTER JOIN Store s ON s.Id = es.StoreId
-                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId
-                    WHERE es.EmployeeId = @EmployeeId", connection);
-                command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    model.Stores.Add(new StoreModel
-                    {
-                        Id = int.Parse(reader["Id"].ToString()),
-                        Name = reader["Name"].ToString()
-                    });
-                }
-                connection.Close();
-            }
-
             {   /* Ascessible Locations */
                 connection.Open();
                 var command = new SqlCommand(@"

@@ -174,7 +174,6 @@
     <Compile Include="Models\ProductSellModel.cs" />
     <Compile Include="Models\StoreInventoryModel.cs" />
     <Compile Include="Models\StoreInventoryViewModel.cs" />
-    <Compile Include="Models\StoreModel.cs" />
     <Compile Include="Models\StoreSellModel.cs" />
     <Compile Include="Models\StoreSellViewModel.cs" />
     <Compile Include="Models\StoreTransferModel.cs" />

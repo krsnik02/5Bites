@@ -11,12 +11,10 @@ namespace _5Bites.Models
 
         public string EmployeeName { get; set; }
         public bool IsAdmin { get; set; }
-        public List<StoreModel> Stores { get; set; }
         public List<LocationModel> Locations { get; set; }
 
         public HomeIndexViewModel()
         {
-            Stores = new List<StoreModel>();
             Locations = new List<LocationModel>();
         }
     }
