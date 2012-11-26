@@ -29,7 +29,7 @@ namespace _5Bites.Controllers
                 Data Source = (local)\SqlExpress;
                 Initial Catalog = 5Bites;");
 
-            {
+            {   /* Get Employee Id */
                 connection.Open();
                 var command = new SqlCommand(@"
                     SELECT e.Id FROM Employee e

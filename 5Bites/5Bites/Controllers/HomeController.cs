@@ -21,7 +21,7 @@ namespace _5Bites.Controllers
                 Data Source = (local)\SQLExpress;
                 Initial Catalog = 5Bites;");
 
-            {
+            {   /* Employee Name */
                 connection.Open();
                 var command = new SqlCommand(@"
                     SELECT e.Username FROM Employee e
@@ -31,7 +31,18 @@ namespace _5Bites.Controllers
                 connection.Close();
             }
 
-            {
+            {   /* Administrator Flag */
+                connection.Open();
+                var command = new SqlCommand(@"
+                    SELECT COUNT(*) FROM Admin a
+                    WHERE a.EmployeeId = @EmployeeId", connection);
+                command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                ViewBag.IsAdmin = (int)command.ExecuteScalar() != 0;
+                connection.Close();
+            }
+
+
+            {   /* Ascessible Stores */
                 ViewBag.Stores = new List<StoreModel>();
                 connection.Open();
                 var command = new SqlCommand(@"
@@ -44,6 +55,26 @@ namespace _5Bites.Controllers
                 while (reader.Read())
                 {
                     ViewBag.Stores.Add(new StoreModel
+                    {
+                        Id = int.Parse(reader["Id"].ToString()),
+                        Name = reader["Name"].ToString()
+                    });
+                }
+                connection.Close();
+            }
+
+            {   /* Ascessible Locations */
+                ViewBag.Locations = new List<LocationModel>();
+                connection.Open();
+                var command = new SqlCommand(@"
+                    SELECT l.Id, l.Name FROM EmployeeLocation el
+                    LEFT OUTER JOIN Location l ON l.Id = el.LocationId
+                    WHERE el.EmployeeId = @EmployeeId", connection);
+                command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    ViewBag.Locations.Add(new LocationModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString()

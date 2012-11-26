@@ -2,8 +2,25 @@
 
 <h2>Welcome @ViewBag.EmployeeName!</h2>
 
-<h3>Choose a Store</h3>
-@foreach (StoreModel store in ViewBag.Stores)
+<h3>Sell Items</h3>
+<p>
+    @foreach (StoreModel store in ViewBag.Stores)
+    {
+        @Html.ActionLink(store.Name, "Sell", "Store", new { id = store.Id }, new { })
+    }
+</p>
+
+<h3>Transfer Inventory</h3>
+@using (Html.BeginForm("Transfer", "Store"))
 {
-    @Html.ActionLink(store.Name, "Sell", "Store", new { id = store.Id }, new { })
+    @Html.DropDownList("FromId", new SelectList(ViewBag.Locations, "Id", "Name"))
+    @Html.DropDownList("ToId", new SelectList(ViewBag.Locations, "Id", "Name"))
+    <input type="submit" value="Transfer" />
+}
+
+<h3>Administration</h3>
+@if (ViewBag.IsAdmin)
+{
+    <p>@Html.ActionLink("Manage Employees", "Manage", "Employee")</p>
+    <p>@Html.ActionLink("Purchase Inventory", "Purchase", "Store")</p>
 }
