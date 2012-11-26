@@ -1,5 +1,9 @@
 ﻿@model _5Bites.Models.StoreSellViewModel
 
+@{
+    ViewBag.Title = Model.StoreName;
+}
+
 <h2>@Model.StoreName</h2>
 
 @using(Html.BeginForm("Sell", "Store"))

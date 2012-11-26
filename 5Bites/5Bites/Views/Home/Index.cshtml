@@ -1,5 +1,9 @@
 ﻿@model _5Bites.Models.HomeIndexViewModel
 
+@{
+    ViewBag.Title = "Welcome " + Model.EmployeeName +"!";
+}
+
 <h2>Welcome @Model.EmployeeName!</h2>
 
 <h3>Sell Items</h3>
