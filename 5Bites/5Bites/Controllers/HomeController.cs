@@ -16,6 +16,7 @@ namespace _5Bites.Controllers
             if (EmployeeId == null)
                 return RedirectToAction("Public", "Home");
 
+            var model = new HomeIndexViewModel();
             var connection = new SqlConnection(@"
                 Integrated Security = true;
                 Data Source = (local)\SQLExpress;
@@ -27,7 +28,7 @@ namespace _5Bites.Controllers
                     SELECT e.Username FROM Employee e
                     WHERE e.Id = @EmployeeId", connection);
                 command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
-                ViewBag.EmployeeName = command.ExecuteScalar().ToString();
+                model.EmployeeName = command.ExecuteScalar().ToString();
                 connection.Close();
             }
 
@@ -37,12 +38,11 @@ namespace _5Bites.Controllers
                     SELECT COUNT(*) FROM Admin a
                     WHERE a.EmployeeId = @EmployeeId", connection);
                 command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
-                ViewBag.IsAdmin = (int)command.ExecuteScalar() != 0;
+                model.IsAdmin = (int)command.ExecuteScalar() != 0;
                 connection.Close();
             }
 
             {   /* Ascessible Stores */
-                ViewBag.Stores = new List<StoreModel>();
                 connection.Open();
                 var command = new SqlCommand(@"
                     SELECT s.Id, l.Name FROM EmployeeStore es
@@ -53,7 +53,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    ViewBag.Stores.Add(new StoreModel
+                    model.Stores.Add(new StoreModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString()
@@ -63,7 +63,6 @@ namespace _5Bites.Controllers
             }
 
             {   /* Ascessible Locations */
-                ViewBag.Locations = new List<LocationModel>();
                 connection.Open();
                 var command = new SqlCommand(@"
                     SELECT l.Id, l.Name FROM EmployeeLocation el
@@ -73,7 +72,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    ViewBag.Locations.Add(new LocationModel
+                    model.Locations.Add(new LocationModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString()
@@ -82,18 +81,18 @@ namespace _5Bites.Controllers
                 connection.Close();
             }
 
-            return View();
+            return View(model);
         }
 
         public ActionResult Public()
         {
+            var model = new HomePublicViewModel();
             var connection = new SqlConnection(@"
                 Integrated Security = true;
                 Data Source = (local)\SQLExpress;
                 Initial Catalog = 5Bites;");
 
             {
-                ViewBag.Stores = new List<StoreModel>();
                 connection.Open();
                 var command = new SqlCommand(@"
                     SELECT s.Id, l.Name FROM Store s
@@ -101,7 +100,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    ViewBag.Stores.Add(new StoreModel
+                    model.Stores.Add(new StoreModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString()
@@ -110,7 +109,7 @@ namespace _5Bites.Controllers
                 connection.Close();
             }
 
-            return View();
+            return View(model);
         }
     }
 }

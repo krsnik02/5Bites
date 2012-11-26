@@ -168,9 +168,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeLoginModel.cs" />
+    <Compile Include="Models\HomeIndexViewModel.cs" />
+    <Compile Include="Models\HomePublicViewModel.cs" />
     <Compile Include="Models\LocationModel.cs" />
-    <Compile Include="Models\ProductQuantityModel.cs" />
+    <Compile Include="Models\ProductSaleModel.cs" />
     <Compile Include="Models\StoreModel.cs" />
+    <Compile Include="Models\StoreSaleModel.cs" />
+    <Compile Include="Models\StoreSellViewModel.cs" />
     <Compile Include="Models\StoreTransferModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -276,8 +280,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Home\Public.cshtml" />
     <Content Include="Views\Employee\Login.cshtml" />
-    <Content Include="Views\Shared\_TransferSelect.cshtml" />
-    <Content Include="Views\Store\Transfer.cshtml" />
+    <Content Include="Views\Store\Sell.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

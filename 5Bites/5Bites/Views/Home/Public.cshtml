@@ -1,10 +1,10 @@
-﻿@using _5Bites.Models
+﻿@model _5Bites.Models.HomePublicViewModel
 
 <h2>Store Inventory</h2>
 
 <h3>Choose a Store</h3>
 <p>
-    @foreach (StoreModel store in ViewBag.Stores)
+    @foreach (var store in Model.Stores)
     {
         @Html.ActionLink(store.Name, "Public", "Store", new { id = store.Id }, new { })
     }
