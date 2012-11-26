@@ -1,0 +1,11 @@
+﻿@model _5Bites.Models.EmployeeLoginModel
+
+<h2>Login</h2>
+@using(Html.BeginForm("Login", "Employee"))
+{
+    @Html.LabelFor(model => model.Username)
+    @Html.TextBoxFor(model => model.Username)
+    @Html.LabelFor(model => model.Password)
+    @Html.PasswordFor(model => model.Password)
+    <input type="submit" value="Login" />
+}
