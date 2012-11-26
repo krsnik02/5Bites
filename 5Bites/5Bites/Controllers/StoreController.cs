@@ -23,6 +23,51 @@ namespace _5Bites.Controllers
         }
 
         [HttpGet]
+        public ActionResult Public(int id)
+        {
+            var model = new StorePublicViewModel();
+            var connection = new SqlConnection(@"
+                Integrated Security = true;
+                Data Source = (local)\SQLExpress;
+                Initial Catalog = 5Bites;");
+
+            {
+                connection.Open();
+                var command = new SqlCommand(@"
+                    SELECT l.Name FROM Store s
+                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId
+                    WHERE s.Id = @StoreId", connection);
+                command.Parameters.AddWithValue("@StoreId", id);
+                model.StoreName = (string)command.ExecuteScalar();
+                connection.Close();
+            }
+
+            {
+                connection.Open();
+                var command = new SqlCommand(@"
+                    SELECT p.Id, p.Name, p.RetailPrice, i.Quantity FROM Store s
+                    LEFT OUTER JOIN Inventory i ON i.LocationId = s.LocationId
+                    LEFT OUTER JOIN Product p ON p.Id = i.ProductId
+                    WHERE s.Id = @StoreId", connection);
+                command.Parameters.AddWithValue("@StoreId", id);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    model.Inventory.Add(new ProductSaleModel
+                    {
+                        Id = int.Parse(reader["Id"].ToString()),
+                        Name = reader["Name"].ToString(),
+                        Price = float.Parse(reader["RetailPrice"].ToString()),
+                        Quantity = int.Parse(reader["Quantity"].ToString())
+                    });
+                }
+                connection.Close();
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
         public ActionResult Sell(int id)
         {
             var model = new StoreSellViewModel();
