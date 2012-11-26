@@ -132,8 +132,8 @@ namespace _5Bites.Controllers
                     {
                         connection.Open();
                         var command = new SqlCommand(@"
-                        INSERT INTO [Transaction](ProductId, StoreId, EmployeeId, Quantity, Timestamp)
-                        VALUES (@ProductId, @StoreId, @EmployeeId, @Quantity, GETDATE())", connection);
+                            INSERT INTO [Transaction](ProductId, StoreId, EmployeeId, Quantity, Timestamp)
+                            VALUES (@ProductId, @StoreId, @EmployeeId, @Quantity, GETDATE())", connection);
                         command.Parameters.AddWithValue("@ProductId", product.Id);
                         command.Parameters.AddWithValue("@StoreId", id);
                         command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
@@ -145,7 +145,9 @@ namespace _5Bites.Controllers
                     {
                         connection.Open();
                         var command = new SqlCommand(@"
-                        UPDATE Inventory SET Quantity = Quantity - @QuantitySold WHERE LocationId IN (SELECT LocationId FROM Store WHERE Id = @StoreId) AND ProductId = @ProductId", connection);
+                            UPDATE Inventory SET Quantity = Quantity - @QuantitySold 
+                            WHERE LocationId IN (SELECT LocationId FROM Store WHERE Id = @StoreId) 
+                            AND ProductId = @ProductId", connection);
                         command.Parameters.AddWithValue("@StoreId", id);
                         command.Parameters.AddWithValue("@ProductId", product.Id);
                         command.Parameters.AddWithValue("@QuantitySold", product.Quantity);
