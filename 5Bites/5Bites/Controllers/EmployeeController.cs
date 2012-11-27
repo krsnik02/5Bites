@@ -161,7 +161,145 @@ namespace _5Bites.Controllers
         [HttpGet]
         public ActionResult Permissions(int id)
         {
-            return View();
+            if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
+                return RedirectToAction("Index", "Home");
+
+            var m = new EmployeePermissionsViewModel();
+            var con = new SqlConnection(
+                @"Integrated Security = true;
+                Data Source = (local)\SqlExpress;
+                Initial Catalog = 5Bites;");
+
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT e.Username, e.IsAdmin FROM Employee e WHERE e.Id = @EmployeeId", con);
+                command.Parameters.AddWithValue("@EmployeeId", id);
+                var reader = command.ExecuteReader();
+                reader.Read();
+                m.Id = id;
+                m.Username = reader["Username"].ToString();
+                m.IsAdmin = bool.Parse(reader["IsAdmin"].ToString());
+                con.Close();
+            }
+
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT s.Id, l.Name, (SELECT CONVERT(BIT, COUNT(*)) FROM EmployeeStore es
+                                            WHERE es.EmployeeId = @EmployeeId
+                                            AND es.StoreId = s.Id) AS HasAccess FROM Store s
+                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId", con);
+                command.Parameters.AddWithValue("@EmployeeId", id);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    m.Stores.Add(new EmployeePermissionsStoreModel
+                    {
+                        Id = int.Parse(reader["Id"].ToString()),
+                        Name = reader["Name"].ToString(),
+                        HasAccess = bool.Parse(reader["HasAccess"].ToString())
+                    });
+                }
+                con.Close();
+            }
+
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT l.Id, l.Name, (SELECT CONVERT(BIT, COUNT(*)) FROM EmployeeLocation el
+                                            WHERE el.EmployeeId = @EmployeeId
+                                            AND el.LocationId = l.Id) AS HasAccess FROM Location l", con);
+                command.Parameters.AddWithValue("@EmployeeId", id);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    m.Locations.Add(new EmployeePermissionsLocationModel
+                    {
+                        Id = int.Parse(reader["Id"].ToString()),
+                        Name = reader["Name"].ToString(),
+                        HasAccess = bool.Parse(reader["HasAccess"].ToString())
+                    });
+                }
+                con.Close();
+            }
+
+            return View(m);
+        }
+
+        /**
+         * POST /Employee/Permissions
+         * Update permissions of an employee.
+         */
+        [HttpPost]
+        public ActionResult Permissions(EmployeePermissionsViewModel m)
+        {
+            var con = new SqlConnection(
+                @"Integrated Security = true;
+                Data Source = (local)\SqlExpress;
+                Initial Catalog = 5Bites;");
+
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"UPDATE Employee SET IsAdmin = @IsAdmin WHERE Id = @EmployeeId", con);
+                command.Parameters.AddWithValue("@EmployeeId", m.Id);
+                command.Parameters.AddWithValue("@IsAdmin", m.IsAdmin);
+                command.ExecuteNonQuery();
+                con.Close();
+            }
+
+            foreach (var store in m.Stores)
+            {
+                con.Open();
+                SqlCommand command;
+                if (store.HasAccess)
+                {
+                    command = new SqlCommand(
+                        @"BEGIN TRANSACTION
+                        IF NOT EXISTS (SELECT * FROM EmployeeStore es WHERE es.EmployeeId = @EmployeeId AND es.StoreId = @StoreId)
+                        BEGIN
+                            INSERT INTO EmployeeStore (EmployeeId, StoreId) VALUES (@EmployeeId, @StoreId)
+                        END
+                        COMMIT TRANSACTION", con);
+                }
+                else
+                {
+                    command = new SqlCommand(
+                        @"DELETE FROM EmployeeStore WHERE EmployeeId = @EmployeeId AND StoreId = @StoreId", con);
+                }
+                command.Parameters.AddWithValue("@EmployeeId", m.Id);
+                command.Parameters.AddWithValue("@StoreId", store.Id);
+                command.ExecuteNonQuery();
+                con.Close();
+            }
+
+            foreach (var location in m.Locations)
+            {
+                con.Open();
+                SqlCommand command;
+                if (location.HasAccess)
+                {
+                    command = new SqlCommand(
+                        @"BEGIN TRANSACTION
+                        IF NOT EXISTS (SELECT * FROM EmployeeLocation WHERE EmployeeId = @EmployeeId AND LocationId = @LocationId)
+                        BEGIN
+                            INSERT INTO EmployeeLocation (EmployeeId, LocationId) VALUES (@EmployeeId, @LocationId)
+                        END
+                        COMMIT TRANSACTION", con);
+                }
+                else
+                {
+                    command = new SqlCommand(
+                        @"DELETE FROM EmployeeLocation WHERE EmployeeId = @EmployeeId AND LocationId = @LocationId", con);
+                }
+                command.Parameters.AddWithValue("@EmployeeId", m.Id);
+                command.Parameters.AddWithValue("@LocationId", location.Id);
+                command.ExecuteNonQuery();
+                con.Close();
+            }
+
+            return RedirectToAction("Manage", "Employee");
         }
        
 

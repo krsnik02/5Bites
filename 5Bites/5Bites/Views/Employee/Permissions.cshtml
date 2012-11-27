@@ -2,6 +2,34 @@
     ViewBag.Title = "Permissions";
 }
 
-<h2>Permissions</h2>
+@model _5Bites.Models.EmployeePermissionsViewModel
 
-<p>TODO: Implement this page</p>
+<h2>Permissions For @Model.Username</h2>
+
+@using (Html.BeginForm("Permissions", "Employee", new { id = UrlParameter.Optional }))
+{
+    @Html.HiddenFor(m => m.Id)
+    @Html.LabelFor(m => m.IsAdmin)
+    @Html.CheckBoxFor(m => m.IsAdmin)
+    <div>
+        <h3>Can Sell</h3>
+        @for (int i = 0; i < Model.Stores.Count; ++i)
+        {
+            @Html.HiddenFor(m => m.Stores[i].Id)
+            @Html.HiddenFor(m => m.Stores[i].Name)
+            @Html.LabelFor(m => m.Stores[i].HasAccess, Model.Stores[i].Name)
+            @Html.CheckBoxFor(m => m.Stores[i].HasAccess)
+        }
+    </div>
+    <div>
+        <h3>Can Manage Inventory</h3>
+        @for (int i = 0; i < Model.Locations.Count; ++i)
+        {
+            @Html.HiddenFor(m => m.Locations[i].Id)
+            @Html.HiddenFor(m => m.Locations[i].Name)
+            @Html.LabelFor(m => m.Locations[i].HasAccess, Model.Locations[i].Name)
+            @Html.CheckBoxFor(m => m.Locations[i].HasAccess)
+        }
+    </div>
+    <input type="submit" value="Update" />
+}

@@ -171,6 +171,9 @@
     <Compile Include="Models\EmployeeManageHireModel.cs" />
     <Compile Include="Models\EmployeeManageModel.cs" />
     <Compile Include="Models\EmployeeManageViewModel.cs" />
+    <Compile Include="Models\EmployeePermissionsLocationModel.cs" />
+    <Compile Include="Models\EmployeePermissionsStoreModel.cs" />
+    <Compile Include="Models\EmployeePermissionsViewModel.cs" />
     <Compile Include="Models\ProductInventoryModel.cs" />
     <Compile Include="Models\ProductSellModel.cs" />
     <Compile Include="Models\StoreInventoryModel.cs" />
