@@ -1,5 +1,4 @@
-﻿using _5Bites.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -27,7 +26,7 @@ namespace _5Bites.Controllers
          * Validate employee login
          */
         [HttpPost]
-        public ActionResult Login(EmployeeLoginModel m)
+        public ActionResult Login(_5Bites.Models.EmployeeLoginModel m)
         {
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
@@ -98,7 +97,7 @@ namespace _5Bites.Controllers
             if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
                 return RedirectToAction("Index", "Home");
 
-            var m = new EmployeeManageViewModel();
+            var m = new _5Bites.Models.EmployeeManageViewModel();
 
             var con = new SqlConnection(
                 @"Integrated Security = true;
@@ -114,7 +113,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Employees.Add(new EmployeeManageModel
+                    m.Employees.Add(new _5Bites.Models.EmployeeManageModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Username = reader["Username"].ToString()
@@ -130,7 +129,7 @@ namespace _5Bites.Controllers
          * Hire an employee
          */
         [HttpPost]
-        public ActionResult Hire(EmployeeManageHireModel m)
+        public ActionResult Hire(_5Bites.Models.EmployeeManageHireModel m)
         {
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
@@ -164,7 +163,7 @@ namespace _5Bites.Controllers
             if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
                 return RedirectToAction("Index", "Home");
 
-            var m = new EmployeePermissionsViewModel();
+            var m = new _5Bites.Models.Employee.Permissions.ViewModel();
             var con = new SqlConnection(
                 @"Integrated Security = true;
                 Data Source = (local)\SqlExpress;
@@ -194,7 +193,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Stores.Add(new EmployeePermissionsStoreModel
+                    m.Stores.Add(new _5Bites.Models.Employee.Permissions.StoreModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString(),
@@ -214,7 +213,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Locations.Add(new EmployeePermissionsLocationModel
+                    m.Locations.Add(new _5Bites.Models.Employee.Permissions.LocationModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString(),
@@ -232,7 +231,7 @@ namespace _5Bites.Controllers
          * Update permissions of an employee.
          */
         [HttpPost]
-        public ActionResult Permissions(EmployeePermissionsViewModel m)
+        public ActionResult Permissions(_5Bites.Models.Employee.Permissions.ViewModel m)
         {
             var con = new SqlConnection(
                 @"Integrated Security = true;
@@ -295,35 +294,6 @@ namespace _5Bites.Controllers
                 }
                 command.Parameters.AddWithValue("@EmployeeId", m.Id);
                 command.Parameters.AddWithValue("@LocationId", location.Id);
-                command.ExecuteNonQuery();
-                con.Close();
-            }
-
-            return RedirectToAction("Manage", "Employee");
-        }
-       
-
-        /**
-         * GET /Employee/Fire/{EmployeeId}
-         * Fire an employee
-         */
-        [HttpGet]
-        public ActionResult Fire(int id)
-        {
-            // Enforce admin priviledges
-            if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
-                return RedirectToAction("Index", "Home");
-
-            var con = new SqlConnection(
-                @"Integrated Security = true;
-                Data Source = (local)\SqlExpress;
-                Initial Catalog = 5Bites;");
-
-            {
-                con.Open();
-                var command = new SqlCommand(
-                    @"DELETE FROM Employee WHERE Id = @EmployeeId", con);
-                command.Parameters.AddWithValue("@EmployeeId", id);
                 command.ExecuteNonQuery();
                 con.Close();
             }

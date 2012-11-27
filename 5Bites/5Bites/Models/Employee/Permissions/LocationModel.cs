@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace _5Bites.Models
+namespace _5Bites.Models.Employee.Permissions
 {
-    public class EmployeePermissionsLocationModel
+    public class LocationModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
