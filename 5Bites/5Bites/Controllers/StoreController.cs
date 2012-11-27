@@ -10,6 +10,10 @@ namespace _5Bites.Controllers
 {
     public class StoreController : Controller
     {
+        /**
+         * GET /Store/Inventory
+         * Display the inventory of all stores
+         */
         [HttpGet]
         public ActionResult Inventory()
         {
@@ -62,18 +66,10 @@ namespace _5Bites.Controllers
             return View(m);
         }
 
-        [HttpPost]
-        public ActionResult Transfer(HomeIndexViewModel model)
-        {
-            return RedirectToAction("Transfer", "Store", new { toId = model.PostTransfer.ToId, fromId = model.PostTransfer.FromId });
-        }
-
-        [HttpGet]
-        public ActionResult Transfer(int toId, int fromId)
-        {
-            return View();
-        }
-
+        /**
+         * GET /Store/Sell
+         * Sale page for a logged in employee
+         */
         [HttpGet]
         public ActionResult Sell()
         {
@@ -130,6 +126,10 @@ namespace _5Bites.Controllers
             return View(m);
         }
 
+        /**
+         * POST /Store/Sell
+         * Handle sale action
+         */
         [HttpPost]
         public ActionResult Sell(StoreSellModel m)
         {

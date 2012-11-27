@@ -10,6 +10,11 @@ namespace _5Bites.Controllers
 {
     public class HomeController : Controller
     {
+        /**
+         * GET /Home/Index
+         * Employee Home Page
+         * If there is no logged in user, redirect to /Store/Inventory
+         */
         [HttpGet]
         public ActionResult Index()
         {
@@ -17,52 +22,26 @@ namespace _5Bites.Controllers
             if (EmployeeId == null)
                 return RedirectToAction("Inventory", "Store");
 
-            var model = new HomeIndexViewModel();
-            var connection = new SqlConnection(@"
+            var m = new HomeIndexViewModel();
+            var con = new SqlConnection(@"
                 Integrated Security = true;
                 Data Source = (local)\SQLExpress;
                 Initial Catalog = 5Bites;");
 
-            {   /* Employee Name */
-                connection.Open();
+            { 
+                con.Open();
                 var command = new SqlCommand(@"
-                    SELECT e.Username FROM Employee e
-                    WHERE e.Id = @EmployeeId", connection);
-                command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
-                model.EmployeeName = command.ExecuteScalar().ToString();
-                connection.Close();
-            }
-
-            {   /* Administrator Flag */
-                connection.Open();
-                var command = new SqlCommand(@"
-                    SELECT COUNT(*) FROM Admin a
-                    WHERE a.EmployeeId = @EmployeeId", connection);
-                command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
-                model.IsAdmin = (int)command.ExecuteScalar() != 0;
-                connection.Close();
-            }
-
-            {   /* Ascessible Locations */
-                connection.Open();
-                var command = new SqlCommand(@"
-                    SELECT l.Id, l.Name FROM EmployeeLocation el
-                    LEFT OUTER JOIN Location l ON l.Id = el.LocationId
-                    WHERE el.EmployeeId = @EmployeeId", connection);
+                    SELECT e.Username, e.IsAdmin FROM Employee e
+                    WHERE e.Id = @EmployeeId", con);
                 command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
                 var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    model.Locations.Add(new LocationModel
-                    {
-                        Id = int.Parse(reader["Id"].ToString()),
-                        Name = reader["Name"].ToString()
-                    });
-                }
-                connection.Close();
+                reader.Read();
+                m.EmployeeName = reader["Username"].ToString();
+                m.IsAdmin = bool.Parse(reader["IsAdmin"].ToString());
+                con.Close();
             }
 
-            return View(model);
+            return View(m);
         }
     }
 }

@@ -1,0 +1,45 @@
+﻿@model _5Bites.Models.EmployeeManageViewModel
+
+@{
+    ViewBag.Title = "Employees";
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tabs').tabs();
+        });
+    </script>
+}
+
+<h2>Employees</h2>
+
+<div id="tabs">
+    <ul>
+        <li><a href="#tab-manage">Manage</a></li>
+        <li><a href="#tab-hire">Hire</a></li>
+    </ul>
+    <div id="tab-manage">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>IsAdmin</th>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model.Employees)
+                {
+                    @Html.Partial("_EmployeeEditPartial", employee)
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="tab-hire">
+        @Html.Partial("_EmployeeHirePartial", new _5Bites.Models.EmployeeManageHireModel())
+    </div>
+</div>

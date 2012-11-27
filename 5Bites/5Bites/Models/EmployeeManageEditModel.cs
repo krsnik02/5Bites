@@ -5,9 +5,10 @@ using System.Web;
 
 namespace _5Bites.Models
 {
-    public class HomeIndexViewModel
+    public class EmployeeManageEditModel
     {
-        public string EmployeeName { get; set; }
+        public int Id { get; set; }
+        public string Username { get; set; }
         public bool IsAdmin { get; set; }
     }
 }
