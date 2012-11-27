@@ -176,12 +176,12 @@
     <Compile Include="Models\Employee\Permissions\LocationModel.cs" />
     <Compile Include="Models\Employee\Permissions\ViewModel.cs" />
     <Compile Include="Models\Employee\Permissions\StoreModel.cs" />
-    <Compile Include="Models\ProductInventoryModel.cs" />
-    <Compile Include="Models\ProductSellModel.cs" />
-    <Compile Include="Models\StoreInventoryModel.cs" />
-    <Compile Include="Models\StoreInventoryViewModel.cs" />
-    <Compile Include="Models\StoreSellModel.cs" />
-    <Compile Include="Models\StoreSellViewModel.cs" />
+    <Compile Include="Models\Store\Inventory\ProductModel.cs" />
+    <Compile Include="Models\Store\Sell\ProductModel.cs" />
+    <Compile Include="Models\Store\Inventory\StoreModel.cs" />
+    <Compile Include="Models\Store\Inventory\ViewModel.cs" />
+    <Compile Include="Models\Store\Sell\StoreModel.cs" />
+    <Compile Include="Models\Store\Sell\ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

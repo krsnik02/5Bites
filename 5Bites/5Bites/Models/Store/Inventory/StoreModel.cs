@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace _5Bites.Models
+namespace _5Bites.Models.Store.Inventory
 {
-    public class StoreSellModel
+    public class StoreModel
     {
         public int StoreId { get; set; }
         public string StoreName { get; set; }
-        public List<ProductSellModel> Inventory { get; set; }
+        public List<ProductModel> Inventory { get; set; }
 
-        public StoreSellModel()
+        public StoreModel()
         {
-            Inventory = new List<ProductSellModel>();
+            Inventory = new List<ProductModel>();
         }
     }
 }
