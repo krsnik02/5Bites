@@ -285,6 +285,10 @@
     <Content Include="Views\Shared\_StoreSellPartial.cshtml" />
     <Content Include="Views\Employee\Manage.cshtml" />
     <Content Include="Views\Shared\_EmployeeHirePartial.cshtml" />
+    <Content Include="Views\Store\Transfer.cshtml" />
+    <Content Include="Views\Employee\Account.cshtml" />
+    <Content Include="Views\Employee\Permissions.cshtml" />
+    <Content Include="Views\Store\Purchase.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -185,5 +185,23 @@ namespace _5Bites.Controllers
 
             return RedirectToAction("Sell", "Store");
         }
+
+        /**
+         * GET /Store/Transfer
+         * Transfer stock between stores
+         */
+        public ActionResult Transfer()
+        {
+            return View();
+        }
+
+        /**
+         * GET /Store/Purchase
+         * Purchase stock for stores
+         */
+        public ActionResult Purchase()
+        {
+            return View();
+        }
     }
 }

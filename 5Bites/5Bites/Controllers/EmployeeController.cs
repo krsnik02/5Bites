@@ -65,6 +65,16 @@ namespace _5Bites.Controllers
         }
 
         /**
+         * GET /Employee/Account
+         * Edit your account (username, password)
+         */
+        [HttpGet]
+        public ActionResult Account()
+        {
+            return View();
+        }
+
+        /**
          * GET /Employee/Logout
          * Log the current employee out
          */
@@ -133,11 +143,10 @@ namespace _5Bites.Controllers
             {   
                 con.Open();
                 var command = new SqlCommand(
-                    @"INSERT INTO Employee(Username, Password, IsAdmin)
-                    VALUES (@Username, @Password, @IsAdmin)", con);
+                    @"INSERT INTO Employee(Username, Password)
+                    VALUES (@Username, @Password)", con);
                 command.Parameters.AddWithValue("@Username", m.Username);
                 command.Parameters.AddWithValue("@Password", hashed);
-                command.Parameters.AddWithValue("@IsAdmin", m.IsAdmin);
                 command.ExecuteNonQuery();
                 con.Close();
             }
@@ -145,36 +154,19 @@ namespace _5Bites.Controllers
             return RedirectToAction("Manage", "Employee");
         }
 
-        
         /**
-         * POST /Employee/SetAdmin
-         * Change admin status of an employee
+         * GET /Employee/Permissions/{EmployeeId}
+         * Edit employee permissions
          */
-        /*
-        [HttpPost]
-        public ActionResult SetAdmin(EmployeeManageEditModel m)
+        [HttpGet]
+        public ActionResult Permissions(int id)
         {
-            var con = new SqlConnection(
-                @"Integrated Security = true;
-                Data Source = (local)\SqlExpress;
-                Initial Catalog = 5Bites;");
-
-            {
-                con.Open();
-                var command = new SqlCommand(
-                    @"UPDATE Employee SET IsAdmin = @IsAdmin WHERE Id = @EmployeeId", con);
-                command.Parameters.AddWithValue("@EmployeeId", m.Id);
-                command.Parameters.AddWithValue("@IsAdmin", m.IsAdmin);
-                command.ExecuteNonQuery();
-                con.Close();
-            }
-
-            return RedirectToAction("Manage", "Employee");
+            return View();
         }
-        */
+       
 
         /**
-         * POST /Employee/Fire/{EmployeeId}
+         * GET /Employee/Fire/{EmployeeId}
          * Fire an employee
          */
         [HttpGet]
