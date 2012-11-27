@@ -16,7 +16,6 @@
         @for (int i = 0; i < Model.Stores.Count; ++i)
         {
             @Html.HiddenFor(m => m.Stores[i].Id)
-            @Html.HiddenFor(m => m.Stores[i].Name)
             @Html.LabelFor(m => m.Stores[i].HasAccess, Model.Stores[i].Name)
             @Html.CheckBoxFor(m => m.Stores[i].HasAccess)
         }
@@ -26,7 +25,6 @@
         @for (int i = 0; i < Model.Locations.Count; ++i)
         {
             @Html.HiddenFor(m => m.Locations[i].Id)
-            @Html.HiddenFor(m => m.Locations[i].Name)
             @Html.LabelFor(m => m.Locations[i].HasAccess, Model.Locations[i].Name)
             @Html.CheckBoxFor(m => m.Locations[i].HasAccess)
         }

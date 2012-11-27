@@ -167,6 +167,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Employee\Hire\LocationModel.cs" />
+    <Compile Include="Models\Employee\Hire\StoreModel.cs" />
     <Compile Include="Models\Employee\Login\ViewModel.cs" />
     <Compile Include="Models\Employee\Hire\ViewModel.cs" />
     <Compile Include="Models\Employee\Manage\EmployeeModel.cs" />

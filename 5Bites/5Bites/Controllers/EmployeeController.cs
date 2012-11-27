@@ -119,6 +119,41 @@ namespace _5Bites.Controllers
                         Username = reader["Username"].ToString()
                     });
                 }
+                con.Close();
+            }
+
+
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT s.Id, l.Name FROM Store s
+                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId", con);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    m.Hire.Stores.Add(new _5Bites.Models.Employee.Hire.StoreModel
+                    {
+                        Id = int.Parse(reader["Id"].ToString()),
+                        Name = reader["Name"].ToString()
+                    });
+                }
+                con.Close();
+            }
+
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT l.Id, l.Name FROM Location l", con);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    m.Hire.Locations.Add(new _5Bites.Models.Employee.Hire.LocationModel
+                    {
+                        Id = int.Parse(reader["Id"].ToString()),
+                        Name = reader["Name"].ToString()
+                    });
+                }
+                con.Close();
             }
 
             return View(m);
@@ -142,12 +177,51 @@ namespace _5Bites.Controllers
             {   
                 con.Open();
                 var command = new SqlCommand(
-                    @"INSERT INTO Employee(Username, Password)
-                    VALUES (@Username, @Password)", con);
+                    @"INSERT INTO Employee(Username, Password, IsAdmin)
+                    VALUES (@Username, @Password, @IsAdmin)", con);
                 command.Parameters.AddWithValue("@Username", m.Username);
                 command.Parameters.AddWithValue("@Password", hashed);
+                command.Parameters.AddWithValue("@IsAdmin", m.IsAdmin);
                 command.ExecuteNonQuery();
                 con.Close();
+            }
+
+            int EmployeeId;
+            {
+                con.Open();
+                var command = new SqlCommand(
+                    @"SELECT Id FROM Employee WHERE Username = @Username", con);
+                command.Parameters.AddWithValue("@Username", m.Username);
+                EmployeeId = int.Parse(command.ExecuteScalar().ToString());
+                con.Close();
+            }
+
+            foreach (var store in m.Stores)
+            {
+                if (store.HasAccess)
+                {
+                    con.Open();
+                    var command = new SqlCommand(
+                        @"INSERT INTO EmployeeStore(EmployeeId, StoreId) VALUES (@EmployeeId, @StoreId)", con);
+                    command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                    command.Parameters.AddWithValue("@StoreId", store.Id);
+                    command.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+
+            foreach (var location in m.Locations)
+            {
+                if (location.HasAccess)
+                {
+                    con.Open();
+                    var command = new SqlCommand(
+                        @"INSERT INTO EMployeeLocation(EmployeeId, LocationId) VALUES (@EmployeeId, @LocationId)", con);
+                    command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
+                    command.Parameters.AddWithValue("@LocationId", location.Id);
+                    command.ExecuteNonQuery();
+                    con.Close();
+                }
             }
 
             return RedirectToAction("Manage", "Employee");
