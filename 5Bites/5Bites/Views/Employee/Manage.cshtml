@@ -29,14 +29,14 @@
                 {
                     <tr>
                         <td>@employee.Username</td>
-                        <td>@Html.ActionLink("Edit Permissions", "Permissions", "Employee", new { id = employee.Id }, new { })</td>
-                        <td>@Html.ActionLink("Fire", "Fire", "Employee", new { id = employee.Id }, new { })</td>
+                        <td>@Html.ActionLink("Edit Permissions", "Permissions", "Employee", new { id = employee.Id }, new { })</td>     <!-- none -->
+                        <td>@Html.ActionLink("Fire", "Fire", "Employee", new { id = employee.Id }, new { })</td>                        <!-- all -->
                     </tr>
                 }
             </tbody>
         </table>
     </div>
     <div id="tab-hire">
-        @Html.Partial("_EmployeeHirePartial", new _5Bites.Models.EmployeeManageHireModel())
+        @Html.Partial("_EmployeeHirePartial", new _5Bites.Models.EmployeeManageHireModel())                                             <!-- mostly -->
     </div>
 </div>

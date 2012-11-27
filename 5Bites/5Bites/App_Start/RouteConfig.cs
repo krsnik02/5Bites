@@ -18,12 +18,6 @@ namespace _5Bites
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
-            routes.MapRoute(
-                name: "Transfer",
-                url: "{controller}/{action}/{toId}/{fromId}",
-                defaults: new { controller = "Store", action = "Transfer", toId = UrlParameter.Optional, fromId = UrlParameter.Optional }
-            );
         }
     }
 }
