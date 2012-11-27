@@ -2,6 +2,57 @@
     ViewBag.Title = "Transfer";
 }
 
-<h2>Transfer</h2>
+@model _5Bites.Models.Inventory.Transfer.ViewModel
 
-<p>TODO: Implement this page</p>
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tabs').tabs();
+        });
+    </script>
+}
+
+<!-- TODO: clean up this interface -->
+
+<h2>Transfer</h2>
+<div id="tabs">
+    <ul>
+        @foreach (var location in Model.Locations)
+        {
+            <li><a href="@("#tab-" + location.Id)">@location.Name</a></li>
+        }
+    </ul>
+    @using (Html.BeginForm("Transfer", "Inventory"))
+    {
+        for (int i = 0; i < Model.Locations.Count; ++i)
+        {
+            <div id="@("tab-" + Model.Locations[i].Id)">
+                @Html.HiddenFor(m => m.Locations[i].Id)
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int j = 0; j < Model.Locations[i].Inventory.Count;++j)
+                        {
+                            @Html.HiddenFor(m => m.Locations[i].Inventory[j].Id)
+                            <tr>
+                                <td>@Html.FormatValue(Model.Locations[i].Inventory[j].Name, "{0}")</td>
+                                <td>@Html.TextBoxFor(m => m.Locations[i].Inventory[j].Quantity)
+                                    (was @Html.FormatValue(Model.Locations[i].Inventory[j].Quantity, "{0}"))
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <input type="submit" value="Transfer" />
+            </div>
+        }
+    }
+</div>

@@ -180,6 +180,9 @@
     <Compile Include="Models\Inventory\Purchase\LocationModel.cs" />
     <Compile Include="Models\Inventory\Purchase\ProductModel.cs" />
     <Compile Include="Models\Inventory\Purchase\ViewModel.cs" />
+    <Compile Include="Models\Inventory\Transfer\LocationModel.cs" />
+    <Compile Include="Models\Inventory\Transfer\ProductModel.cs" />
+    <Compile Include="Models\Inventory\Transfer\ViewModel.cs" />
     <Compile Include="Models\Store\Inventory\ProductModel.cs" />
     <Compile Include="Models\Store\Sell\ProductModel.cs" />
     <Compile Include="Models\Store\Inventory\StoreModel.cs" />
@@ -302,7 +305,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Inventory\Transfer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
