@@ -167,10 +167,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\EmployeeLoginModel.cs" />
-    <Compile Include="Models\EmployeeManageHireModel.cs" />
-    <Compile Include="Models\EmployeeManageModel.cs" />
-    <Compile Include="Models\EmployeeManageViewModel.cs" />
+    <Compile Include="Models\Employee\Login\ViewModel.cs" />
+    <Compile Include="Models\Employee\Hire\ViewModel.cs" />
+    <Compile Include="Models\Employee\Manage\EmployeeModel.cs" />
+    <Compile Include="Models\Employee\Manage\ViewModel.cs" />
     <Compile Include="Models\Employee\Permissions\LocationModel.cs" />
     <Compile Include="Models\Employee\Permissions\ViewModel.cs" />
     <Compile Include="Models\Employee\Permissions\StoreModel.cs" />

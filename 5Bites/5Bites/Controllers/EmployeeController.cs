@@ -26,7 +26,7 @@ namespace _5Bites.Controllers
          * Validate employee login
          */
         [HttpPost]
-        public ActionResult Login(_5Bites.Models.EmployeeLoginModel m)
+        public ActionResult Login(_5Bites.Models.Employee.Login.ViewModel m)
         {
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
@@ -97,7 +97,7 @@ namespace _5Bites.Controllers
             if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
                 return RedirectToAction("Index", "Home");
 
-            var m = new _5Bites.Models.EmployeeManageViewModel();
+            var m = new _5Bites.Models.Employee.Manage.ViewModel();
 
             var con = new SqlConnection(
                 @"Integrated Security = true;
@@ -113,7 +113,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Employees.Add(new _5Bites.Models.EmployeeManageModel
+                    m.Employees.Add(new _5Bites.Models.Employee.Manage.EmployeeModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Username = reader["Username"].ToString()
@@ -129,7 +129,7 @@ namespace _5Bites.Controllers
          * Hire an employee
          */
         [HttpPost]
-        public ActionResult Hire(_5Bites.Models.EmployeeManageHireModel m)
+        public ActionResult Hire(_5Bites.Models.Employee.Hire.ViewModel m)
         {
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));

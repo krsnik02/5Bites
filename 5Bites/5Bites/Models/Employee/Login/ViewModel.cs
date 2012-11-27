@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace _5Bites.Models
+namespace _5Bites.Models.Employee.Login
 {
-    public class EmployeeLoginModel
+    public class ViewModel
     {
         [Display(Name="Username")]
         [DataType(DataType.Text)]

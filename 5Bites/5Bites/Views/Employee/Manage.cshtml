@@ -1,4 +1,4 @@
-﻿@model _5Bites.Models.EmployeeManageViewModel
+﻿@model _5Bites.Models.Employee.Manage.ViewModel
 
 @{
     ViewBag.Title = "Employees";
@@ -36,6 +36,6 @@
         </table>
     </div>
     <div id="tab-hire">
-        @Html.Partial("_EmployeeHirePartial", new _5Bites.Models.EmployeeManageHireModel())                                             <!-- mostly -->
+        @Html.Partial("_EmployeeHirePartial", new _5Bites.Models.Employee.Hire.ViewModel())                                             <!-- mostly -->
     </div>
 </div>
