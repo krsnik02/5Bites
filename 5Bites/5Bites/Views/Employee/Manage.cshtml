@@ -24,17 +24,14 @@
     </ul>
     <div id="tab-manage">
         <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>IsAdmin</th>
-                    <td></td>
-                </tr>
-            </thead>
             <tbody>
                 @foreach (var employee in Model.Employees)
                 {
-                    @Html.Partial("_EmployeeEditPartial", employee)
+                    <tr>
+                        <td>@employee.Username</td>
+                        <td>@Html.ActionLink("Edit Permissions", "Permissions", "Employee", new { id = employee.Id }, new { })</td>
+                        <td>@Html.ActionLink("Fire", "Fire", "Employee", new { id = employee.Id }, new { })</td>
+                    </tr>
                 }
             </tbody>
         </table>

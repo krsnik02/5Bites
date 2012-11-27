@@ -4,5 +4,6 @@
 }
 else
 {
+    <p>Welcome @Html.ActionLink((string)Session.Contents["EmployeeName"], "Modify", "Employee")</p>
     @Html.ActionLink("Logout", "Logout", "Employee")
 }

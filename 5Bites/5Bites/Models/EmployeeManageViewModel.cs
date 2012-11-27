@@ -7,11 +7,11 @@ namespace _5Bites.Models
 {
     public class EmployeeManageViewModel
     {
-        public List<EmployeeManageEditModel> Employees { get; set; }
+        public List<EmployeeManageModel> Employees { get; set; }
 
         public EmployeeManageViewModel()
         {
-            Employees = new List<EmployeeManageEditModel>();
+            Employees = new List<EmployeeManageModel>();
         }
     }
 }

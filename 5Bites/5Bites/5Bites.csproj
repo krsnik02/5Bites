@@ -168,11 +168,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\EmployeeLoginModel.cs" />
-    <Compile Include="Models\EmployeeManageEditModel.cs" />
     <Compile Include="Models\EmployeeManageHireModel.cs" />
+    <Compile Include="Models\EmployeeManageModel.cs" />
     <Compile Include="Models\EmployeeManageViewModel.cs" />
-    <Compile Include="Models\HomeIndexViewModel.cs" />
-    <Compile Include="Models\LocationModel.cs" />
     <Compile Include="Models\ProductInventoryModel.cs" />
     <Compile Include="Models\ProductSellModel.cs" />
     <Compile Include="Models\StoreInventoryModel.cs" />
@@ -284,9 +282,8 @@
     <Content Include="Views\Employee\Login.cshtml" />
     <Content Include="Views\Store\Sell.cshtml" />
     <Content Include="Views\Store\Inventory.cshtml" />
-    <Content Include="Views\Shared\_SellPartial.cshtml" />
+    <Content Include="Views\Shared\_StoreSellPartial.cshtml" />
     <Content Include="Views\Employee\Manage.cshtml" />
-    <Content Include="Views\Shared\_EmployeeEditPartial.cshtml" />
     <Content Include="Views\Shared\_EmployeeHirePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>

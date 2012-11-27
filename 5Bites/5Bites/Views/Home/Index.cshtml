@@ -1,15 +1,13 @@
-﻿@model _5Bites.Models.HomeIndexViewModel
-
-@{
-    ViewBag.Title = "Welcome " + Model.EmployeeName +"!";
+﻿@{
+    ViewBag.Title = "Welcome " + Session.Contents["EmployeeName"] +"!";
 }
 
-<h2>Welcome @Model.EmployeeName!</h2>
+<h2>Welcome @Session.Contents["EmployeeName"]!</h2>
 
 <p>@Html.ActionLink("Sell Items", "Sell", "Store")</p>
 <p>@Html.ActionLink("Transfer Inventory", "Transfer", "Store")</p>
 
-@if (Model.IsAdmin)
+@if ((bool)Session.Contents["EmployeeAdmin"])
 {
     <h3>Administration</h3>
     <p>@Html.ActionLink("Manage Employees", "Manage", "Employee")</p>

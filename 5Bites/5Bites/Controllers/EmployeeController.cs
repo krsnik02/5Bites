@@ -40,11 +40,17 @@ namespace _5Bites.Controllers
             {   /* Get Employee Id */
                 con.Open();
                 var command = new SqlCommand(
-                    @"SELECT e.Id FROM Employee e
+                    @"SELECT e.Id, e.IsAdmin FROM Employee e
                     WHERE e.Username = @Username AND e.Password = @Password", con);
                 command.Parameters.AddWithValue("@Username", m.Username);
                 command.Parameters.AddWithValue("@Password", hashed);
-                Session.Contents["EmployeeId"] = (int?)command.ExecuteScalar();
+                var reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    Session.Contents["EmployeeId"] = int.Parse(reader["Id"].ToString());
+                    Session.Contents["EmployeeName"] = m.Username;
+                    Session.Contents["EmployeeAdmin"] = bool.Parse(reader["IsAdmin"].ToString());
+                }
                 con.Close();
             }
 
@@ -66,6 +72,8 @@ namespace _5Bites.Controllers
         public ActionResult Logout()
         {
             Session.Contents["EmployeeId"] = null;
+            Session.Contents["EmployeeName"] = null;
+            Session.Contents["EmployeeAdmin"] = null;
             return RedirectToAction("Index", "Home");
         }
 
@@ -76,6 +84,10 @@ namespace _5Bites.Controllers
         [HttpGet]
         public ActionResult Manage()
         {
+            // Enforce admin priviledges
+            if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
+                return RedirectToAction("Index", "Home");
+
             var m = new EmployeeManageViewModel();
 
             var con = new SqlConnection(
@@ -86,17 +98,16 @@ namespace _5Bites.Controllers
             {
                 con.Open();
                 var command = new SqlCommand(
-                    @"SELECT e.Id, e.Username, e.IsAdmin FROM Employee e
+                    @"SELECT e.Id, e.Username FROM Employee e
                     WHERE e.Id <> @EmployeeId", con);
                 command.Parameters.AddWithValue("@EmployeeId", (int)Session.Contents["EmployeeId"]);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Employees.Add(new EmployeeManageEditModel
+                    m.Employees.Add(new EmployeeManageModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
-                        Username = reader["Username"].ToString(),
-                        IsAdmin = bool.Parse(reader["IsAdmin"].ToString())
+                        Username = reader["Username"].ToString()
                     });
                 }
             }
@@ -134,10 +145,12 @@ namespace _5Bites.Controllers
             return RedirectToAction("Manage", "Employee");
         }
 
+        
         /**
          * POST /Employee/SetAdmin
          * Change admin status of an employee
          */
+        /*
         [HttpPost]
         public ActionResult SetAdmin(EmployeeManageEditModel m)
         {
@@ -158,14 +171,19 @@ namespace _5Bites.Controllers
 
             return RedirectToAction("Manage", "Employee");
         }
+        */
 
         /**
-         * POST /Employee/Fire
+         * POST /Employee/Fire/{EmployeeId}
          * Fire an employee
          */
-        [HttpPost]
-        public ActionResult Fire(EmployeeManageEditModel m)
+        [HttpGet]
+        public ActionResult Fire(int id)
         {
+            // Enforce admin priviledges
+            if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
+                return RedirectToAction("Index", "Home");
+
             var con = new SqlConnection(
                 @"Integrated Security = true;
                 Data Source = (local)\SqlExpress;
@@ -175,7 +193,7 @@ namespace _5Bites.Controllers
                 con.Open();
                 var command = new SqlCommand(
                     @"DELETE FROM Employee WHERE Id = @EmployeeId", con);
-                command.Parameters.AddWithValue("@EmployeeId", m.Id);
+                command.Parameters.AddWithValue("@EmployeeId", id);
                 command.ExecuteNonQuery();
                 con.Close();
             }
