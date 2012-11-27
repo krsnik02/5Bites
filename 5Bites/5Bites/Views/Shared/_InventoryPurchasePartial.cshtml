@@ -1,8 +1,8 @@
-﻿@model _5Bites.Models.Store.Sell.StoreModel
+﻿@model _5Bites.Models.Inventory.Purchase.LocationModel
 
-@using (Html.BeginForm("Sell", "Store"))
+@using (Html.BeginForm("Purchase", "Inventory"))
 {
-    @Html.HiddenFor(m => m.StoreId)
+    @Html.HiddenFor(m => m.Id)
     <table>
         <thead>
             <tr>
@@ -17,14 +17,14 @@
                 @Html.HiddenFor(m => m.Inventory[i].Id)
                 @Html.HiddenFor(m => m.Inventory[i].Price)
                 <tr>
-                    <td>@Html.FormatValue(Model.Inventory[i].Description, "{0}")</td>
+                    <td>@Html.FormatValue(Model.Inventory[i].Name, "{0}")</td>
                     <td>@Html.FormatValue(Model.Inventory[i].Price, "{0:C2}")</td>
-                    <td>@Html.TextBoxFor(m => m.Inventory[i].Quantity, new { @Value = 0 })
-                        (of @Html.FormatValue(Model.Inventory[i].Quantity, "{0}")
+                    <td>@Html.TextBoxFor(m => m.Inventory[i].Quantity)
+                        (was @Html.FormatValue(Model.Inventory[i].Quantity, "{0}"))
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    <input type="submit" value="Sell" />
+    <input type="submit" value="Purchase" />
 }

@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Purchase";
+}
+
+@model _5Bites.Models.Inventory.Purchase.ViewModel
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base/css")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tabs').tabs();
+        });
+    </script>
+}
+
+<h2>Purchase</h2>
+<div id="tabs">
+    <ul>
+        @foreach (var location in Model.Locations)
+        {
+            <li><a href="@("#tab-" + location.Id)">@location.Name</a></li>
+        }
+    </ul>
+    @foreach (var location in Model.Locations)
+    {
+        <div id="@("tab-" + location.Id)">
+            @Html.Partial("_InventoryPurchasePartial", location)
+        </div>
+    }
+</div>

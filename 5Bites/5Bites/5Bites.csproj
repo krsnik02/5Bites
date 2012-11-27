@@ -163,6 +163,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\StoreController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -176,6 +177,9 @@
     <Compile Include="Models\Employee\Permissions\LocationModel.cs" />
     <Compile Include="Models\Employee\Permissions\ViewModel.cs" />
     <Compile Include="Models\Employee\Permissions\StoreModel.cs" />
+    <Compile Include="Models\Inventory\Purchase\LocationModel.cs" />
+    <Compile Include="Models\Inventory\Purchase\ProductModel.cs" />
+    <Compile Include="Models\Inventory\Purchase\ViewModel.cs" />
     <Compile Include="Models\Store\Inventory\ProductModel.cs" />
     <Compile Include="Models\Store\Sell\ProductModel.cs" />
     <Compile Include="Models\Store\Inventory\StoreModel.cs" />
@@ -290,13 +294,15 @@
     <Content Include="Views\Shared\_StoreSellPartial.cshtml" />
     <Content Include="Views\Employee\Manage.cshtml" />
     <Content Include="Views\Shared\_EmployeeHirePartial.cshtml" />
-    <Content Include="Views\Store\Transfer.cshtml" />
+    <Content Include="Views\Inventory\Transfer.cshtml" />
     <Content Include="Views\Employee\Account.cshtml" />
     <Content Include="Views\Employee\Permissions.cshtml" />
-    <Content Include="Views\Store\Purchase.cshtml" />
+    <Content Include="Views\Inventory\Purchase.cshtml" />
+    <Content Include="Views\Shared\_InventoryPurchasePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Inventory\Transfer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
