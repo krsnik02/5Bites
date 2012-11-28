@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace _5Bites.Models.Inventory.Purchase
+namespace _5Bites.Models.Inventory_.Purchase
 {
     public class ProductModel
     {

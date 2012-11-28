@@ -1,0 +1,605 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="db5BitesModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="db5BitesModelStoreContainer">
+          <EntitySet Name="Employee" EntityType="db5BitesModel.Store.Employee" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmployeeLocation" EntityType="db5BitesModel.Store.EmployeeLocation" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmployeeStore" EntityType="db5BitesModel.Store.EmployeeStore" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Inventory" EntityType="db5BitesModel.Store.Inventory" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Location" EntityType="db5BitesModel.Store.Location" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Product" EntityType="db5BitesModel.Store.Product" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Store" EntityType="db5BitesModel.Store.Store" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Transaction" EntityType="db5BitesModel.Store.Transaction" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__EmployeeL__Emplo__2A164134" Association="db5BitesModel.Store.FK__EmployeeL__Emplo__2A164134">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeLocation" EntitySet="EmployeeLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeL__Locat__2B0A656D" Association="db5BitesModel.Store.FK__EmployeeL__Locat__2B0A656D">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="EmployeeLocation" EntitySet="EmployeeLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeS__Emplo__2EDAF651" Association="db5BitesModel.Store.FK__EmployeeS__Emplo__2EDAF651">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeStore" EntitySet="EmployeeStore" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeS__Store__2FCF1A8A" Association="db5BitesModel.Store.FK__EmployeeS__Store__2FCF1A8A">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="EmployeeStore" EntitySet="EmployeeStore" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Locat__208CD6FA" Association="db5BitesModel.Store.FK__Inventory__Locat__208CD6FA">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Produ__1F98B2C1" Association="db5BitesModel.Store.FK__Inventory__Produ__1F98B2C1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Inventory" EntitySet="Inventory" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Store__LocationI__1BC821DD" Association="db5BitesModel.Store.FK__Store__LocationI__1BC821DD">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="Store" EntitySet="Store" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Emplo__3493CFA7" Association="db5BitesModel.Store.FK__Transacti__Emplo__3493CFA7">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Produ__32AB8735" Association="db5BitesModel.Store.FK__Transacti__Produ__32AB8735">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Store__339FAB6E" Association="db5BitesModel.Store.FK__Transacti__Store__339FAB6E">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Password" Type="binary" Nullable="false" MaxLength="32" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmployeeLocation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="LocationId" Type="int" />
+        </EntityType>
+        <EntityType Name="EmployeeStore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="StoreId" Type="int" />
+        </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="LocationId" Type="int" />
+          <Property Name="Quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="RetailPrice" Type="smallmoney" />
+          <Property Name="WholesalePrice" Type="smallmoney" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Bank" Type="smallmoney" />
+          <Property Name="LocationId" Type="int" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="StoreId" Type="int" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Timestamp" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__EmployeeL__Emplo__2A164134">
+          <End Role="Employee" Type="db5BitesModel.Store.Employee" Multiplicity="0..1" />
+          <End Role="EmployeeLocation" Type="db5BitesModel.Store.EmployeeLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLocation">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeL__Locat__2B0A656D">
+          <End Role="Location" Type="db5BitesModel.Store.Location" Multiplicity="0..1" />
+          <End Role="EmployeeLocation" Type="db5BitesModel.Store.EmployeeLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeLocation">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeS__Emplo__2EDAF651">
+          <End Role="Employee" Type="db5BitesModel.Store.Employee" Multiplicity="0..1" />
+          <End Role="EmployeeStore" Type="db5BitesModel.Store.EmployeeStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeStore">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeS__Store__2FCF1A8A">
+          <End Role="Store" Type="db5BitesModel.Store.Store" Multiplicity="0..1" />
+          <End Role="EmployeeStore" Type="db5BitesModel.Store.EmployeeStore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeStore">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inventory__Locat__208CD6FA">
+          <End Role="Location" Type="db5BitesModel.Store.Location" Multiplicity="0..1" />
+          <End Role="Inventory" Type="db5BitesModel.Store.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Inventory__Produ__1F98B2C1">
+          <End Role="Product" Type="db5BitesModel.Store.Product" Multiplicity="0..1" />
+          <End Role="Inventory" Type="db5BitesModel.Store.Inventory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Inventory">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Store__LocationI__1BC821DD">
+          <End Role="Location" Type="db5BitesModel.Store.Location" Multiplicity="0..1" />
+          <End Role="Store" Type="db5BitesModel.Store.Store" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Store">
+              <PropertyRef Name="LocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Emplo__3493CFA7">
+          <End Role="Employee" Type="db5BitesModel.Store.Employee" Multiplicity="0..1" />
+          <End Role="Transaction" Type="db5BitesModel.Store.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Produ__32AB8735">
+          <End Role="Product" Type="db5BitesModel.Store.Product" Multiplicity="0..1" />
+          <End Role="Transaction" Type="db5BitesModel.Store.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transacti__Store__339FAB6E">
+          <End Role="Store" Type="db5BitesModel.Store.Store" Multiplicity="0..1" />
+          <End Role="Transaction" Type="db5BitesModel.Store.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="StoreId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db5BitesModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="db5BitesModel.Employee" />
+          <EntitySet Name="EmployeeLocations" EntityType="db5BitesModel.EmployeeLocation" />
+          <EntitySet Name="EmployeeStores" EntityType="db5BitesModel.EmployeeStore" />
+          <EntitySet Name="Inventories" EntityType="db5BitesModel.Inventory" />
+          <EntitySet Name="Locations" EntityType="db5BitesModel.Location" />
+          <EntitySet Name="Products" EntityType="db5BitesModel.Product" />
+          <EntitySet Name="Stores" EntityType="db5BitesModel.Store" />
+          <EntitySet Name="Transactions" EntityType="db5BitesModel.Transaction" />
+          <AssociationSet Name="FK__EmployeeL__Emplo__2A164134" Association="db5BitesModel.FK__EmployeeL__Emplo__2A164134">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeLocation" EntitySet="EmployeeLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeS__Emplo__2EDAF651" Association="db5BitesModel.FK__EmployeeS__Emplo__2EDAF651">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeStore" EntitySet="EmployeeStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Emplo__3493CFA7" Association="db5BitesModel.FK__Transacti__Emplo__3493CFA7">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeL__Locat__2B0A656D" Association="db5BitesModel.FK__EmployeeL__Locat__2B0A656D">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="EmployeeLocation" EntitySet="EmployeeLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeS__Store__2FCF1A8A" Association="db5BitesModel.FK__EmployeeS__Store__2FCF1A8A">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="EmployeeStore" EntitySet="EmployeeStores" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Locat__208CD6FA" Association="db5BitesModel.FK__Inventory__Locat__208CD6FA">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Inventory" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Inventory__Produ__1F98B2C1" Association="db5BitesModel.FK__Inventory__Produ__1F98B2C1">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Inventory" EntitySet="Inventories" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Store__LocationI__1BC821DD" Association="db5BitesModel.FK__Store__LocationI__1BC821DD">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="Store" EntitySet="Stores" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Produ__32AB8735" Association="db5BitesModel.FK__Transacti__Produ__32AB8735">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transacti__Store__339FAB6E" Association="db5BitesModel.FK__Transacti__Store__339FAB6E">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="32" FixedLength="true" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EmployeeLocations" Relationship="db5BitesModel.FK__EmployeeL__Emplo__2A164134" FromRole="Employee" ToRole="EmployeeLocation" />
+          <NavigationProperty Name="EmployeeStores" Relationship="db5BitesModel.FK__EmployeeS__Emplo__2EDAF651" FromRole="Employee" ToRole="EmployeeStore" />
+          <NavigationProperty Name="Transactions" Relationship="db5BitesModel.FK__Transacti__Emplo__3493CFA7" FromRole="Employee" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="EmployeeLocation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Employee" Relationship="db5BitesModel.FK__EmployeeL__Emplo__2A164134" FromRole="EmployeeLocation" ToRole="Employee" />
+          <NavigationProperty Name="Location" Relationship="db5BitesModel.FK__EmployeeL__Locat__2B0A656D" FromRole="EmployeeLocation" ToRole="Location" />
+        </EntityType>
+        <EntityType Name="EmployeeStore">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Employee" Relationship="db5BitesModel.FK__EmployeeS__Emplo__2EDAF651" FromRole="EmployeeStore" ToRole="Employee" />
+          <NavigationProperty Name="Store" Relationship="db5BitesModel.FK__EmployeeS__Store__2FCF1A8A" FromRole="EmployeeStore" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="Inventory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Quantity" Type="Int32" />
+          <NavigationProperty Name="Location" Relationship="db5BitesModel.FK__Inventory__Locat__208CD6FA" FromRole="Inventory" ToRole="Location" />
+          <NavigationProperty Name="Product" Relationship="db5BitesModel.FK__Inventory__Produ__1F98B2C1" FromRole="Inventory" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="EmployeeLocations" Relationship="db5BitesModel.FK__EmployeeL__Locat__2B0A656D" FromRole="Location" ToRole="EmployeeLocation" />
+          <NavigationProperty Name="Inventories" Relationship="db5BitesModel.FK__Inventory__Locat__208CD6FA" FromRole="Location" ToRole="Inventory" />
+          <NavigationProperty Name="Stores" Relationship="db5BitesModel.FK__Store__LocationI__1BC821DD" FromRole="Location" ToRole="Store" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="RetailPrice" Type="Decimal" Precision="10" Scale="4" />
+          <Property Name="WholesalePrice" Type="Decimal" Precision="10" Scale="4" />
+          <NavigationProperty Name="Inventories" Relationship="db5BitesModel.FK__Inventory__Produ__1F98B2C1" FromRole="Product" ToRole="Inventory" />
+          <NavigationProperty Name="Transactions" Relationship="db5BitesModel.FK__Transacti__Produ__32AB8735" FromRole="Product" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Store">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Bank" Type="Decimal" Precision="10" Scale="4" />
+          <NavigationProperty Name="EmployeeStores" Relationship="db5BitesModel.FK__EmployeeS__Store__2FCF1A8A" FromRole="Store" ToRole="EmployeeStore" />
+          <NavigationProperty Name="Location" Relationship="db5BitesModel.FK__Store__LocationI__1BC821DD" FromRole="Store" ToRole="Location" />
+          <NavigationProperty Name="Transactions" Relationship="db5BitesModel.FK__Transacti__Store__339FAB6E" FromRole="Store" ToRole="Transaction" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="db5BitesModel.FK__Transacti__Emplo__3493CFA7" FromRole="Transaction" ToRole="Employee" />
+          <NavigationProperty Name="Product" Relationship="db5BitesModel.FK__Transacti__Produ__32AB8735" FromRole="Transaction" ToRole="Product" />
+          <NavigationProperty Name="Store" Relationship="db5BitesModel.FK__Transacti__Store__339FAB6E" FromRole="Transaction" ToRole="Store" />
+        </EntityType>
+        <Association Name="FK__EmployeeL__Emplo__2A164134">
+          <End Role="Employee" Type="db5BitesModel.Employee" Multiplicity="0..1" />
+          <End Role="EmployeeLocation" Type="db5BitesModel.EmployeeLocation" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__EmployeeS__Emplo__2EDAF651">
+          <End Role="Employee" Type="db5BitesModel.Employee" Multiplicity="0..1" />
+          <End Role="EmployeeStore" Type="db5BitesModel.EmployeeStore" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__Transacti__Emplo__3493CFA7">
+          <End Role="Employee" Type="db5BitesModel.Employee" Multiplicity="0..1" />
+          <End Role="Transaction" Type="db5BitesModel.Transaction" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__EmployeeL__Locat__2B0A656D">
+          <End Role="Location" Type="db5BitesModel.Location" Multiplicity="0..1" />
+          <End Role="EmployeeLocation" Type="db5BitesModel.EmployeeLocation" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__EmployeeS__Store__2FCF1A8A">
+          <End Role="Store" Type="db5BitesModel.Store" Multiplicity="0..1" />
+          <End Role="EmployeeStore" Type="db5BitesModel.EmployeeStore" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__Inventory__Locat__208CD6FA">
+          <End Role="Location" Type="db5BitesModel.Location" Multiplicity="0..1" />
+          <End Role="Inventory" Type="db5BitesModel.Inventory" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__Inventory__Produ__1F98B2C1">
+          <End Role="Product" Type="db5BitesModel.Product" Multiplicity="0..1" />
+          <End Role="Inventory" Type="db5BitesModel.Inventory" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__Store__LocationI__1BC821DD">
+          <End Role="Location" Type="db5BitesModel.Location" Multiplicity="0..1" />
+          <End Role="Store" Type="db5BitesModel.Store" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__Transacti__Produ__32AB8735">
+          <End Role="Product" Type="db5BitesModel.Product" Multiplicity="0..1" />
+          <End Role="Transaction" Type="db5BitesModel.Transaction" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__Transacti__Store__339FAB6E">
+          <End Role="Store" Type="db5BitesModel.Store" Multiplicity="0..1" />
+          <End Role="Transaction" Type="db5BitesModel.Transaction" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db5BitesModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="db5BitesModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeLocations">
+            <EntityTypeMapping TypeName="db5BitesModel.EmployeeLocation">
+              <MappingFragment StoreEntitySet="EmployeeLocation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeStores">
+            <EntityTypeMapping TypeName="db5BitesModel.EmployeeStore">
+              <MappingFragment StoreEntitySet="EmployeeStore">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Inventories">
+            <EntityTypeMapping TypeName="db5BitesModel.Inventory">
+              <MappingFragment StoreEntitySet="Inventory">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="db5BitesModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="db5BitesModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RetailPrice" ColumnName="RetailPrice" />
+                <ScalarProperty Name="WholesalePrice" ColumnName="WholesalePrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stores">
+            <EntityTypeMapping TypeName="db5BitesModel.Store">
+              <MappingFragment StoreEntitySet="Store">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Bank" ColumnName="Bank" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="db5BitesModel.Transaction">
+              <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FK__EmployeeL__Emplo__2A164134" TypeName="db5BitesModel.FK__EmployeeL__Emplo__2A164134" StoreEntitySet="EmployeeLocation">
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="Id" ColumnName="EmployeeId" />
+            </EndProperty>
+            <EndProperty Name="EmployeeLocation">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="EmployeeId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__EmployeeS__Emplo__2EDAF651" TypeName="db5BitesModel.FK__EmployeeS__Emplo__2EDAF651" StoreEntitySet="EmployeeStore">
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="Id" ColumnName="EmployeeId" />
+            </EndProperty>
+            <EndProperty Name="EmployeeStore">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="EmployeeId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__Transacti__Emplo__3493CFA7" TypeName="db5BitesModel.FK__Transacti__Emplo__3493CFA7" StoreEntitySet="Transaction">
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="Id" ColumnName="EmployeeId" />
+            </EndProperty>
+            <EndProperty Name="Transaction">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="EmployeeId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__EmployeeL__Locat__2B0A656D" TypeName="db5BitesModel.FK__EmployeeL__Locat__2B0A656D" StoreEntitySet="EmployeeLocation">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="Id" ColumnName="LocationId" />
+            </EndProperty>
+            <EndProperty Name="EmployeeLocation">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="LocationId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__EmployeeS__Store__2FCF1A8A" TypeName="db5BitesModel.FK__EmployeeS__Store__2FCF1A8A" StoreEntitySet="EmployeeStore">
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
+            </EndProperty>
+            <EndProperty Name="EmployeeStore">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="StoreId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__Inventory__Locat__208CD6FA" TypeName="db5BitesModel.FK__Inventory__Locat__208CD6FA" StoreEntitySet="Inventory">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="Id" ColumnName="LocationId" />
+            </EndProperty>
+            <EndProperty Name="Inventory">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="LocationId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__Inventory__Produ__1F98B2C1" TypeName="db5BitesModel.FK__Inventory__Produ__1F98B2C1" StoreEntitySet="Inventory">
+            <EndProperty Name="Product">
+              <ScalarProperty Name="Id" ColumnName="ProductId" />
+            </EndProperty>
+            <EndProperty Name="Inventory">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="ProductId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__Store__LocationI__1BC821DD" TypeName="db5BitesModel.FK__Store__LocationI__1BC821DD" StoreEntitySet="Store">
+            <EndProperty Name="Location">
+              <ScalarProperty Name="Id" ColumnName="LocationId" />
+            </EndProperty>
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="LocationId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__Transacti__Produ__32AB8735" TypeName="db5BitesModel.FK__Transacti__Produ__32AB8735" StoreEntitySet="Transaction">
+            <EndProperty Name="Product">
+              <ScalarProperty Name="Id" ColumnName="ProductId" />
+            </EndProperty>
+            <EndProperty Name="Transaction">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="ProductId" IsNull="false" />
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="FK__Transacti__Store__339FAB6E" TypeName="db5BitesModel.FK__Transacti__Store__339FAB6E" StoreEntitySet="Transaction">
+            <EndProperty Name="Store">
+              <ScalarProperty Name="Id" ColumnName="StoreId" />
+            </EndProperty>
+            <EndProperty Name="Transaction">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <Condition ColumnName="StoreId" IsNull="false" />
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

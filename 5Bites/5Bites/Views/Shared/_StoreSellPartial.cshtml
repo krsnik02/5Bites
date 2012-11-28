@@ -1,4 +1,4 @@
-﻿@model _5Bites.Models.Store.Sell.StoreModel
+﻿@model _5Bites.Models.Store_.Sell.StoreModel
 
 @using (Html.BeginForm("Sell", "Store"))
 {
@@ -20,7 +20,7 @@
                     <td>@Html.FormatValue(Model.Inventory[i].Description, "{0}")</td>
                     <td>@Html.FormatValue(Model.Inventory[i].Price, "{0:C2}")</td>
                     <td>@Html.TextBoxFor(m => m.Inventory[i].Quantity, new { @Value = 0 })
-                        (of @Html.FormatValue(Model.Inventory[i].Quantity, "{0}")
+                        (of @Html.FormatValue(Model.Inventory[i].Quantity, "{0}"))
                     </td>
                 </tr>
             }

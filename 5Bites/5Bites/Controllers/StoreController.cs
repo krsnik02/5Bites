@@ -16,7 +16,7 @@ namespace _5Bites.Controllers
         [HttpGet]
         public ActionResult Inventory()
         {
-            var m = new _5Bites.Models.Store.Inventory.ViewModel();
+            var m = new _5Bites.Models.Store_.Inventory.ViewModel();
 
             var con = new SqlConnection(
                 @"Integrated Security = true;
@@ -31,7 +31,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Stores.Add(new _5Bites.Models.Store.Inventory.StoreModel
+                    m.Stores.Add(new _5Bites.Models.Store_.Inventory.StoreModel
                     {
                         StoreId = int.Parse(reader["Id"].ToString()),
                         StoreName = reader["Name"].ToString()
@@ -52,7 +52,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Stores[i].Inventory.Add(new _5Bites.Models.Store.Inventory.ProductModel
+                    m.Stores[i].Inventory.Add(new _5Bites.Models.Store_.Inventory.ProductModel
                     {
                         Description = reader["Name"].ToString(),
                         Price = float.Parse(reader["RetailPrice"].ToString()),
@@ -72,7 +72,7 @@ namespace _5Bites.Controllers
         [HttpGet]
         public ActionResult Sell()
         {
-            var m = new _5Bites.Models.Store.Sell.ViewModel();
+            var m = new _5Bites.Models.Store_.Sell.ViewModel();
 
             var con = new SqlConnection(
                 @"Integrated Security = true;
@@ -90,7 +90,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Stores.Add(new _5Bites.Models.Store.Sell.StoreModel
+                    m.Stores.Add(new _5Bites.Models.Store_.Sell.StoreModel
                     {
                         StoreId = int.Parse(reader["Id"].ToString()),
                         StoreName = reader["Name"].ToString()
@@ -111,7 +111,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Stores[i].Inventory.Add(new _5Bites.Models.Store.Sell.ProductModel
+                    m.Stores[i].Inventory.Add(new _5Bites.Models.Store_.Sell.ProductModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Description = reader["Name"].ToString(),
@@ -130,7 +130,7 @@ namespace _5Bites.Controllers
          * Handle sale action
          */
         [HttpPost]
-        public ActionResult Sell(_5Bites.Models.Store.Sell.StoreModel m)
+        public ActionResult Sell(_5Bites.Models.Store_.Sell.StoreModel m)
         {
             var con = new SqlConnection(
                 @"Integrated Security = true;

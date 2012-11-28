@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace _5Bites.Models.Employee.Manage
+namespace _5Bites.Models.Employee_.Manage
 {
     public class EmployeeModel
     {

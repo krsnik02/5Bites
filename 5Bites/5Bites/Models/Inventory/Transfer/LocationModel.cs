@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace _5Bites.Models.Inventory.Transfer
+namespace _5Bites.Models.Inventory_.Transfer
 {
     public class LocationModel
     {

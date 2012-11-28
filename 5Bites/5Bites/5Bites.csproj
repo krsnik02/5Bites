@@ -44,6 +44,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -168,6 +170,30 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\5BitesDBModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>5BitesDBModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\5BitesDBModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>5BitesDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\5BitesDBModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>5BitesDBModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Employee.cs">
+      <DependentUpon>5BitesDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeLocation.cs">
+      <DependentUpon>5BitesDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmployeeStore.cs">
+      <DependentUpon>5BitesDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Employee\Hire\LocationModel.cs" />
     <Compile Include="Models\Employee\Hire\StoreModel.cs" />
     <Compile Include="Models\Employee\Login\ViewModel.cs" />
@@ -177,18 +203,33 @@
     <Compile Include="Models\Employee\Permissions\LocationModel.cs" />
     <Compile Include="Models\Employee\Permissions\ViewModel.cs" />
     <Compile Include="Models\Employee\Permissions\StoreModel.cs" />
+    <Compile Include="Models\Inventory.cs">
+      <DependentUpon>5BitesDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Inventory\Purchase\LocationModel.cs" />
     <Compile Include="Models\Inventory\Purchase\ProductModel.cs" />
     <Compile Include="Models\Inventory\Purchase\ViewModel.cs" />
     <Compile Include="Models\Inventory\Transfer\LocationModel.cs" />
     <Compile Include="Models\Inventory\Transfer\ProductModel.cs" />
     <Compile Include="Models\Inventory\Transfer\ViewModel.cs" />
+    <Compile Include="Models\Location.cs">
+      <DependentUpon>5BitesDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>5BitesDBModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Store.cs">
+      <DependentUpon>5BitesDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Store\Inventory\ProductModel.cs" />
     <Compile Include="Models\Store\Sell\ProductModel.cs" />
     <Compile Include="Models\Store\Inventory\StoreModel.cs" />
     <Compile Include="Models\Store\Inventory\ViewModel.cs" />
     <Compile Include="Models\Store\Sell\StoreModel.cs" />
     <Compile Include="Models\Store\Sell\ViewModel.cs" />
+    <Compile Include="Models\Transaction.cs">
+      <DependentUpon>5BitesDBModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -248,6 +289,23 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <EntityDeploy Include="Models\5BitesDBModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>5BitesDBModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\5BitesDBModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>5BitesDBModel.edmx</DependentUpon>
+      <LastGenOutput>5BitesDBModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\5BitesDBModel.edmx.diagram">
+      <DependentUpon>5BitesDBModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\5BitesDBModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>5BitesDBModel.edmx</DependentUpon>
+      <LastGenOutput>5BitesDBModel.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -308,6 +366,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

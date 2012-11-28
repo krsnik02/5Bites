@@ -15,7 +15,7 @@ namespace _5Bites.Controllers
          */
         public ActionResult Transfer()
         {
-            var m = new Models.Inventory.Transfer.ViewModel();
+            var m = new Models.Inventory_.Transfer.ViewModel();
 
             var con = new SqlConnection(
                 @"Integrated Security = true;
@@ -32,7 +32,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Locations.Add(new Models.Inventory.Transfer.LocationModel
+                    m.Locations.Add(new Models.Inventory_.Transfer.LocationModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString()
@@ -50,7 +50,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Locations[i].Inventory.Add(new Models.Inventory.Transfer.ProductModel
+                    m.Locations[i].Inventory.Add(new Models.Inventory_.Transfer.ProductModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString(),
@@ -68,7 +68,7 @@ namespace _5Bites.Controllers
          * Transfer inventory between stores
          */
         [HttpPost]
-        public ActionResult Transfer(Models.Inventory.Transfer.ViewModel m)
+        public ActionResult Transfer(Models.Inventory_.Transfer.ViewModel m)
         {
             var con = new SqlConnection(
                 @"Integrated Security = true;
@@ -100,7 +100,7 @@ namespace _5Bites.Controllers
          */
         public ActionResult Purchase()
         {
-            var m = new Models.Inventory.Purchase.ViewModel();
+            var m = new Models.Inventory_.Purchase.ViewModel();
 
             var con = new SqlConnection(
                 @"Integrated Security = true;
@@ -117,7 +117,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Locations.Add(new Models.Inventory.Purchase.LocationModel
+                    m.Locations.Add(new Models.Inventory_.Purchase.LocationModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString()
@@ -135,7 +135,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Locations[i].Inventory.Add(new Models.Inventory.Purchase.ProductModel
+                    m.Locations[i].Inventory.Add(new Models.Inventory_.Purchase.ProductModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString(),
@@ -154,7 +154,7 @@ namespace _5Bites.Controllers
          * Purchase supplies for stores
          */
         [HttpPost]
-        public ActionResult Purchase(Models.Inventory.Purchase.LocationModel m)
+        public ActionResult Purchase(Models.Inventory_.Purchase.LocationModel m)
         {
             var con = new SqlConnection(
                 @"Integrated Security = true;

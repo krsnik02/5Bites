@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace _5Bites.Models.Employee.Login
+namespace _5Bites.Models.Employee_.Login
 {
     public class ViewModel
     {

@@ -26,7 +26,7 @@ namespace _5Bites.Controllers
          * Validate employee login
          */
         [HttpPost]
-        public ActionResult Login(_5Bites.Models.Employee.Login.ViewModel m)
+        public ActionResult Login(_5Bites.Models.Employee_.Login.ViewModel m)
         {
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
@@ -97,7 +97,7 @@ namespace _5Bites.Controllers
             if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
                 return RedirectToAction("Index", "Home");
 
-            var m = new _5Bites.Models.Employee.Manage.ViewModel();
+            var m = new _5Bites.Models.Employee_.Manage.ViewModel();
 
             var con = new SqlConnection(
                 @"Integrated Security = true;
@@ -113,7 +113,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Employees.Add(new _5Bites.Models.Employee.Manage.EmployeeModel
+                    m.Employees.Add(new _5Bites.Models.Employee_.Manage.EmployeeModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Username = reader["Username"].ToString()
@@ -131,7 +131,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Hire.Stores.Add(new _5Bites.Models.Employee.Hire.StoreModel
+                    m.Hire.Stores.Add(new _5Bites.Models.Employee_.Hire.StoreModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString()
@@ -147,7 +147,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Hire.Locations.Add(new _5Bites.Models.Employee.Hire.LocationModel
+                    m.Hire.Locations.Add(new _5Bites.Models.Employee_.Hire.LocationModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString()
@@ -164,7 +164,7 @@ namespace _5Bites.Controllers
          * Hire an employee
          */
         [HttpPost]
-        public ActionResult Hire(_5Bites.Models.Employee.Hire.ViewModel m)
+        public ActionResult Hire(_5Bites.Models.Employee_.Hire.ViewModel m)
         {
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
@@ -237,7 +237,7 @@ namespace _5Bites.Controllers
             if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
                 return RedirectToAction("Index", "Home");
 
-            var m = new _5Bites.Models.Employee.Permissions.ViewModel();
+            var m = new _5Bites.Models.Employee_.Permissions.ViewModel();
             var con = new SqlConnection(
                 @"Integrated Security = true;
                 Data Source = (local)\SqlExpress;
@@ -267,7 +267,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Stores.Add(new _5Bites.Models.Employee.Permissions.StoreModel
+                    m.Stores.Add(new _5Bites.Models.Employee_.Permissions.StoreModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString(),
@@ -287,7 +287,7 @@ namespace _5Bites.Controllers
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    m.Locations.Add(new _5Bites.Models.Employee.Permissions.LocationModel
+                    m.Locations.Add(new _5Bites.Models.Employee_.Permissions.LocationModel
                     {
                         Id = int.Parse(reader["Id"].ToString()),
                         Name = reader["Name"].ToString(),
@@ -305,7 +305,7 @@ namespace _5Bites.Controllers
          * Update permissions of an employee.
          */
         [HttpPost]
-        public ActionResult Permissions(_5Bites.Models.Employee.Permissions.ViewModel m)
+        public ActionResult Permissions(_5Bites.Models.Employee_.Permissions.ViewModel m)
         {
             var con = new SqlConnection(
                 @"Integrated Security = true;
