@@ -12,27 +12,19 @@ namespace _5Bites.Controllers
 {
     public class EmployeeController : Controller
     {
-        /**
-         * GET /Employee/Login
-         * Employee Login Page
-         */
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
-        /**
-         * POST /Employee/Login
-         * Validate employee login
-         */
         [HttpPost]
         public ActionResult Login(Models.Employee_.Login.ViewModel m)
         {
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
 
-            using (var db = new DBEntities())
+            using (var db = new DBContext())
             {
                 var employee = db.Employees.SingleOrDefault(
                     e => e.Username == m.Username && e.Password == hashed);
@@ -47,20 +39,12 @@ namespace _5Bites.Controllers
                 return RedirectToAction("Index", "Home");
         }
 
-        /**
-         * GET /Employee/Account
-         * Edit your account (username, password)
-         */
         [HttpGet]
         public ActionResult Account()
         {
             return View();
         }
 
-        /**
-         * GET /Employee/Logout
-         * Log the current employee out
-         */
         [HttpGet]
         public ActionResult Logout()
         {
@@ -70,10 +54,6 @@ namespace _5Bites.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        /**
-         * GET /Employee/Manage
-         * Hire or Fire employees
-         */
         [HttpGet]
         public ActionResult Manage()
         {
@@ -84,9 +64,11 @@ namespace _5Bites.Controllers
             int EmployeeId = (int)Session.Contents["EmployeeId"];
             var m = new Models.Employee_.Manage.ViewModel();
 
-            using (var db = new DBEntities())
+            using (var db = new DBContext())
             {
-                var employees = db.Employees.Where(e => e.Id != EmployeeId);
+                var employees = from e in db.Employees
+                                where e.Id != EmployeeId
+                                select e;
                 var stores = db.Stores;
                 var locations = db.Locations;
 
@@ -121,78 +103,48 @@ namespace _5Bites.Controllers
             return View(m);
         }
 
-        /**
-         * POST /Employee/Hire
-         * Hire an employee
-         */
         [HttpPost]
-        public ActionResult Hire(_5Bites.Models.Employee_.Hire.ViewModel m)
+        public ActionResult Hire(Models.Employee_.Hire.ViewModel m)
         {
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
 
-            var con = new SqlConnection(
-                @"Integrated Security = true;
-                Data Source = (local)\SqlExpress;
-                Initial Catalog = 5Bites;");
-
-            {   
-                con.Open();
-                var command = new SqlCommand(
-                    @"INSERT INTO Employee(Username, Password, IsAdmin)
-                    VALUES (@Username, @Password, @IsAdmin)", con);
-                command.Parameters.AddWithValue("@Username", m.Username);
-                command.Parameters.AddWithValue("@Password", hashed);
-                command.Parameters.AddWithValue("@IsAdmin", m.IsAdmin);
-                command.ExecuteNonQuery();
-                con.Close();
-            }
-
-            int EmployeeId;
+            using (var db = new DBContext())
             {
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT Id FROM Employee WHERE Username = @Username", con);
-                command.Parameters.AddWithValue("@Username", m.Username);
-                EmployeeId = int.Parse(command.ExecuteScalar().ToString());
-                con.Close();
-            }
+                var e = new Employee();
+                e.Username = m.Username;
+                e.Password = hashed;
+                e.IsAdmin = m.IsAdmin;
 
-            foreach (var store in m.Stores)
-            {
-                if (store.HasAccess)
+                foreach (var s in m.Stores)
                 {
-                    con.Open();
-                    var command = new SqlCommand(
-                        @"INSERT INTO EmployeeStore(EmployeeId, StoreId) VALUES (@EmployeeId, @StoreId)", con);
-                    command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
-                    command.Parameters.AddWithValue("@StoreId", store.Id);
-                    command.ExecuteNonQuery();
-                    con.Close();
+                    if (s.HasAccess)
+                    {
+                        var es = new EmployeeStore();
+                        es.Employee = e;
+                        es.StoreId = s.Id;
+                        e.EmployeeStores.Add(es);
+                    }
                 }
-            }
 
-            foreach (var location in m.Locations)
-            {
-                if (location.HasAccess)
+                foreach (var l in m.Locations)
                 {
-                    con.Open();
-                    var command = new SqlCommand(
-                        @"INSERT INTO EMployeeLocation(EmployeeId, LocationId) VALUES (@EmployeeId, @LocationId)", con);
-                    command.Parameters.AddWithValue("@EmployeeId", EmployeeId);
-                    command.Parameters.AddWithValue("@LocationId", location.Id);
-                    command.ExecuteNonQuery();
-                    con.Close();
+                    if (l.HasAccess)
+                    {
+                        var el = new EmployeeLocation();
+                        el.Employee = e;
+                        el.LocationId = l.Id;
+                        e.EmployeeLocations.Add(el);
+                    }
                 }
+
+                db.Employees.Add(e);
+                db.SaveChanges();
             }
 
             return RedirectToAction("Manage", "Employee");
         }
 
-        /**
-         * GET /Employee/Permissions/{EmployeeId}
-         * Edit employee permissions
-         */
         [HttpGet]
         public ActionResult Permissions(int id)
         {
@@ -262,10 +214,6 @@ namespace _5Bites.Controllers
             return View(m);
         }
 
-        /**
-         * POST /Employee/Permissions
-         * Update permissions of an employee.
-         */
         [HttpPost]
         public ActionResult Permissions(_5Bites.Models.Employee_.Permissions.ViewModel m)
         {

@@ -15,6 +15,8 @@ namespace _5Bites.Models
     public partial class EmployeeStore
     {
         public int Id { get; set; }
+        public int EmployeeId { get; set; }
+        public int StoreId { get; set; }
     
         public virtual Employee Employee { get; set; }
         public virtual Store Store { get; set; }

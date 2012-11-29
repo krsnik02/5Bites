@@ -13,10 +13,10 @@ namespace _5Bites.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DBEntities : DbContext
+    public partial class DBContext : DbContext
     {
-        public DBEntities()
-            : base("name=DBEntities")
+        public DBContext()
+            : base("name=DBContext")
         {
         }
     

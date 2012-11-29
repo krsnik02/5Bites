@@ -15,6 +15,8 @@ namespace _5Bites.Models
     public partial class Inventory
     {
         public int Id { get; set; }
+        public int ProductId { get; set; }
+        public int LocationId { get; set; }
         public int Quantity { get; set; }
     
         public virtual Location Location { get; set; }

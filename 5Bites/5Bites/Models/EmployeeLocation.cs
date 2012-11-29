@@ -15,6 +15,8 @@ namespace _5Bites.Models
     public partial class EmployeeLocation
     {
         public int Id { get; set; }
+        public int EmployeeId { get; set; }
+        public int LocationId { get; set; }
     
         public virtual Employee Employee { get; set; }
         public virtual Location Location { get; set; }
