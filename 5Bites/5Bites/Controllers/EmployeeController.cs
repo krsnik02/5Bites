@@ -72,31 +72,28 @@ namespace _5Bites.Controllers
                 var stores = db.Stores;
                 var locations = db.Locations;
 
-                foreach (var employee in employees)
+                foreach (var e in employees)
                 {
-                    m.Employees.Add(new Models.Employee_.Manage.EmployeeModel
-                    {
-                        Id = employee.Id,
-                        Username = employee.Username
-                    });
+                    var em = new Models.Employee_.Manage.EmployeeModel();
+                    em.Id = e.Id;
+                    em.Username = e.Username;
+                    m.Employees.Add(em);
                 }
 
-                foreach (var store in stores)
+                foreach (var s in stores)
                 {
-                    m.Hire.Stores.Add(new Models.Employee_.Hire.StoreModel
-                    {
-                        Id = store.Id,
-                        Name = store.Location.Name
-                    });
+                    var sm = new Models.Employee_.Hire.StoreModel();
+                    sm.Id = s.Id;
+                    sm.Name = s.Location.Name;
+                    m.Hire.Stores.Add(sm);
                 }
 
-                foreach (var location in locations)
+                foreach (var l in locations)
                 {
-                    m.Hire.Locations.Add(new Models.Employee_.Hire.LocationModel
-                    {
-                        Id = location.Id,
-                        Name = location.Name
-                    });
+                    var lm = new Models.Employee_.Hire.LocationModel();
+                    lm.Id = l.Id;
+                    lm.Name = l.Name;
+                    m.Hire.Locations.Add(lm);
                 }
             }
 
@@ -116,26 +113,20 @@ namespace _5Bites.Controllers
                 e.Password = hashed;
                 e.IsAdmin = m.IsAdmin;
 
-                foreach (var s in m.Stores)
+                foreach (var s in m.Stores.Where(s => s.HasAccess))
                 {
-                    if (s.HasAccess)
-                    {
-                        var es = new EmployeeStore();
-                        es.Employee = e;
-                        es.StoreId = s.Id;
-                        e.EmployeeStores.Add(es);
-                    }
+                    var es = new EmployeeStore();
+                    es.Employee = e;
+                    es.StoreId = s.Id;
+                    e.EmployeeStores.Add(es);
                 }
 
-                foreach (var l in m.Locations)
+                foreach (var l in m.Locations.Where(l => l.HasAccess))
                 {
-                    if (l.HasAccess)
-                    {
-                        var el = new EmployeeLocation();
-                        el.Employee = e;
-                        el.LocationId = l.Id;
-                        e.EmployeeLocations.Add(el);
-                    }
+                    var el = new EmployeeLocation();
+                    el.Employee = e;
+                    el.LocationId = l.Id;
+                    e.EmployeeLocations.Add(el);
                 }
 
                 db.Employees.Add(e);
@@ -162,22 +153,20 @@ namespace _5Bites.Controllers
 
                 foreach(var s in db.Stores)
                 {
-                    m.Stores.Add(new Models.Employee_.Permissions.StoreModel
-                    {
-                        Id = s.Id,
-                        Name = s.Location.Name,
-                        HasAccess = e.EmployeeStores.Count(x => x.Store == s) != 0
-                    });
+                    var sm = new Models.Employee_.Permissions.StoreModel();
+                    sm.Id = s.Id;
+                    sm.Name = s.Location.Name;
+                    sm.HasAccess = e.EmployeeStores.Count(x => x.Store == s) != 0;
+                    m.Stores.Add(sm);
                 }
 
                 foreach (var l in db.Locations)
                 {
-                    m.Locations.Add(new Models.Employee_.Permissions.LocationModel
-                    {
-                        Id = l.Id,
-                        Name = l.Name,
-                        HasAccess = e.EmployeeLocations.Count(x => x.Location == l) != 0
-                    });
+                    var lm = new Models.Employee_.Permissions.LocationModel();
+                    lm.Id = l.Id;
+                    lm.Name = l.Name;
+                    lm.HasAccess = e.EmployeeLocations.Count(x => x.Location == l) != 0;
+                    m.Locations.Add(lm);
                 }
             }
 
@@ -193,26 +182,27 @@ namespace _5Bites.Controllers
                 e.IsAdmin = m.IsAdmin;
 
                 e.EmployeeStores.Clear();
+                e.EmployeeLocations.Clear();
                 db.EmployeeStores.Where(el => el.EmployeeId == e.Id)
                     .ToList().ForEach(el => db.EmployeeStores.Remove(el));
-                m.Stores.Where(l => l.HasAccess)
-                    .ToList().ForEach(l => db.EmployeeStores.Add(
-                        new EmployeeStore
-                        {
-                            Employee = e,
-                            StoreId = l.Id
-                        }));
-
-                e.EmployeeLocations.Clear();
                 db.EmployeeLocations.Where(el => el.EmployeeId == e.Id)
                     .ToList().ForEach(el => db.EmployeeLocations.Remove(el));
-                m.Locations.Where(l => l.HasAccess)
-                    .ToList().ForEach(l => db.EmployeeLocations.Add(
-                        new EmployeeLocation
-                        {
-                            Employee = e,
-                            LocationId = l.Id
-                        }));
+
+                foreach (var s in m.Stores.Where(s => s.HasAccess))
+                {
+                    var es = new EmployeeStore();
+                    es.Employee = e;
+                    es.StoreId = s.Id;
+                    db.EmployeeStores.Add(es);
+                }
+
+                foreach (var l in m.Locations.Where(l => l.HasAccess))
+                {
+                    var el = new EmployeeLocation();
+                    el.Employee = e;
+                    el.LocationId = l.Id;
+                    db.EmployeeLocations.Add(el);
+                }
 
                 db.SaveChanges();
             }

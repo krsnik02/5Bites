@@ -10,11 +10,6 @@ namespace _5Bites.Controllers
 {
     public class HomeController : Controller
     {
-        /**
-         * GET /Home/Index
-         * Employee Home Page
-         * If there is no logged in user, redirect to /Store/Inventory
-         */
         [HttpGet]
         public ActionResult Index()
         {

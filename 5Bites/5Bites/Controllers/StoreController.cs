@@ -9,10 +9,6 @@ namespace _5Bites.Controllers
 {
     public class StoreController : Controller
     {
-        /**
-         * GET /Store/Inventory
-         * Display the inventory of all stores
-         */
         [HttpGet]
         public ActionResult Inventory()
         {
@@ -65,10 +61,6 @@ namespace _5Bites.Controllers
             return View(m);
         }
 
-        /**
-         * GET /Store/Sell
-         * Sale page for a logged in employee
-         */
         [HttpGet]
         public ActionResult Sell()
         {
@@ -125,10 +117,6 @@ namespace _5Bites.Controllers
             return View(m);
         }
 
-        /**
-         * POST /Store/Sell
-         * Handle sale action
-         */
         [HttpPost]
         public ActionResult Sell(_5Bites.Models.Store_.Sell.StoreModel m)
         {

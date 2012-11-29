@@ -9,10 +9,6 @@ namespace _5Bites.Controllers
 {
     public class InventoryController : Controller
     {
-        /**
-         * GET /Inventory/Transfer
-         * Transfer stock between stores
-         */
         public ActionResult Transfer()
         {
             var m = new Models.Inventory_.Transfer.ViewModel();
@@ -63,10 +59,6 @@ namespace _5Bites.Controllers
             return View(m);
         }
 
-        /**
-         * POST /Inventory/Transfer
-         * Transfer inventory between stores
-         */
         [HttpPost]
         public ActionResult Transfer(Models.Inventory_.Transfer.ViewModel m)
         {
@@ -94,10 +86,6 @@ namespace _5Bites.Controllers
             return RedirectToAction("Transfer", "Inventory");
         }
 
-        /**
-         * GET /Inventory/Purchase
-         * Purchase stock for stores
-         */
         public ActionResult Purchase()
         {
             var m = new Models.Inventory_.Purchase.ViewModel();
@@ -149,10 +137,6 @@ namespace _5Bites.Controllers
             return View(m);
         }
 
-        /**
-         * POST /Inventory/Purchase
-         * Purchase supplies for stores
-         */
         [HttpPost]
         public ActionResult Purchase(Models.Inventory_.Purchase.LocationModel m)
         {
