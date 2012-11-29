@@ -152,63 +152,33 @@ namespace _5Bites.Controllers
                 return RedirectToAction("Index", "Home");
 
             var m = new _5Bites.Models.Employee_.Permissions.ViewModel();
-            var con = new SqlConnection(
-                @"Integrated Security = true;
-                Data Source = (local)\SqlExpress;
-                Initial Catalog = 5Bites;");
 
+            using (var db = new DBContext())
             {
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT e.Username, e.IsAdmin FROM Employee e WHERE e.Id = @EmployeeId", con);
-                command.Parameters.AddWithValue("@EmployeeId", id);
-                var reader = command.ExecuteReader();
-                reader.Read();
-                m.Id = id;
-                m.Username = reader["Username"].ToString();
-                m.IsAdmin = bool.Parse(reader["IsAdmin"].ToString());
-                con.Close();
-            }
+                var e = db.Employees.Single(x => x.Id == id);
+                m.Id = e.Id;
+                m.Username = e.Username;
+                m.IsAdmin = e.IsAdmin;
 
-            {
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT s.Id, l.Name, (SELECT CONVERT(BIT, COUNT(*)) FROM EmployeeStore es
-                                            WHERE es.EmployeeId = @EmployeeId
-                                            AND es.StoreId = s.Id) AS HasAccess FROM Store s
-                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId", con);
-                command.Parameters.AddWithValue("@EmployeeId", id);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                foreach(var s in db.Stores)
                 {
-                    m.Stores.Add(new _5Bites.Models.Employee_.Permissions.StoreModel
+                    m.Stores.Add(new Models.Employee_.Permissions.StoreModel
                     {
-                        Id = int.Parse(reader["Id"].ToString()),
-                        Name = reader["Name"].ToString(),
-                        HasAccess = bool.Parse(reader["HasAccess"].ToString())
+                        Id = s.Id,
+                        Name = s.Location.Name,
+                        HasAccess = e.EmployeeStores.Count(x => x.Store == s) != 0
                     });
                 }
-                con.Close();
-            }
 
-            {
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT l.Id, l.Name, (SELECT CONVERT(BIT, COUNT(*)) FROM EmployeeLocation el
-                                            WHERE el.EmployeeId = @EmployeeId
-                                            AND el.LocationId = l.Id) AS HasAccess FROM Location l", con);
-                command.Parameters.AddWithValue("@EmployeeId", id);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                foreach (var l in db.Locations)
                 {
-                    m.Locations.Add(new _5Bites.Models.Employee_.Permissions.LocationModel
+                    m.Locations.Add(new Models.Employee_.Permissions.LocationModel
                     {
-                        Id = int.Parse(reader["Id"].ToString()),
-                        Name = reader["Name"].ToString(),
-                        HasAccess = bool.Parse(reader["HasAccess"].ToString())
+                        Id = l.Id,
+                        Name = l.Name,
+                        HasAccess = e.EmployeeLocations.Count(x => x.Location == l) != 0
                     });
                 }
-                con.Close();
             }
 
             return View(m);
@@ -217,69 +187,34 @@ namespace _5Bites.Controllers
         [HttpPost]
         public ActionResult Permissions(_5Bites.Models.Employee_.Permissions.ViewModel m)
         {
-            var con = new SqlConnection(
-                @"Integrated Security = true;
-                Data Source = (local)\SqlExpress;
-                Initial Catalog = 5Bites;");
-
+            using (var db = new DBContext())
             {
-                con.Open();
-                var command = new SqlCommand(
-                    @"UPDATE Employee SET IsAdmin = @IsAdmin WHERE Id = @EmployeeId", con);
-                command.Parameters.AddWithValue("@EmployeeId", m.Id);
-                command.Parameters.AddWithValue("@IsAdmin", m.IsAdmin);
-                command.ExecuteNonQuery();
-                con.Close();
-            }
+                var e = db.Employees.Single(x => x.Id == m.Id);
+                e.IsAdmin = m.IsAdmin;
 
-            foreach (var store in m.Stores)
-            {
-                con.Open();
-                SqlCommand command;
-                if (store.HasAccess)
-                {
-                    command = new SqlCommand(
-                        @"BEGIN TRANSACTION
-                        IF NOT EXISTS (SELECT * FROM EmployeeStore es WHERE es.EmployeeId = @EmployeeId AND es.StoreId = @StoreId)
-                        BEGIN
-                            INSERT INTO EmployeeStore (EmployeeId, StoreId) VALUES (@EmployeeId, @StoreId)
-                        END
-                        COMMIT TRANSACTION", con);
-                }
-                else
-                {
-                    command = new SqlCommand(
-                        @"DELETE FROM EmployeeStore WHERE EmployeeId = @EmployeeId AND StoreId = @StoreId", con);
-                }
-                command.Parameters.AddWithValue("@EmployeeId", m.Id);
-                command.Parameters.AddWithValue("@StoreId", store.Id);
-                command.ExecuteNonQuery();
-                con.Close();
-            }
+                e.EmployeeStores.Clear();
+                db.EmployeeStores.Where(el => el.EmployeeId == e.Id)
+                    .ToList().ForEach(el => db.EmployeeStores.Remove(el));
+                m.Stores.Where(l => l.HasAccess)
+                    .ToList().ForEach(l => db.EmployeeStores.Add(
+                        new EmployeeStore
+                        {
+                            Employee = e,
+                            StoreId = l.Id
+                        }));
 
-            foreach (var location in m.Locations)
-            {
-                con.Open();
-                SqlCommand command;
-                if (location.HasAccess)
-                {
-                    command = new SqlCommand(
-                        @"BEGIN TRANSACTION
-                        IF NOT EXISTS (SELECT * FROM EmployeeLocation WHERE EmployeeId = @EmployeeId AND LocationId = @LocationId)
-                        BEGIN
-                            INSERT INTO EmployeeLocation (EmployeeId, LocationId) VALUES (@EmployeeId, @LocationId)
-                        END
-                        COMMIT TRANSACTION", con);
-                }
-                else
-                {
-                    command = new SqlCommand(
-                        @"DELETE FROM EmployeeLocation WHERE EmployeeId = @EmployeeId AND LocationId = @LocationId", con);
-                }
-                command.Parameters.AddWithValue("@EmployeeId", m.Id);
-                command.Parameters.AddWithValue("@LocationId", location.Id);
-                command.ExecuteNonQuery();
-                con.Close();
+                e.EmployeeLocations.Clear();
+                db.EmployeeLocations.Where(el => el.EmployeeId == e.Id)
+                    .ToList().ForEach(el => db.EmployeeLocations.Remove(el));
+                m.Locations.Where(l => l.HasAccess)
+                    .ToList().ForEach(l => db.EmployeeLocations.Add(
+                        new EmployeeLocation
+                        {
+                            Employee = e,
+                            LocationId = l.Id
+                        }));
+
+                db.SaveChanges();
             }
 
             return RedirectToAction("Manage", "Employee");
