@@ -146,7 +146,7 @@ namespace _5Bites.Controllers
 
             using (var db = new DBContext())
             {
-                var e = db.Employees.Single(x => x.Id == id);
+                var e = db.Employees.Single(e_ => e_.Id == id);
                 m.Id = e.Id;
                 m.Username = e.Username;
                 m.IsAdmin = e.IsAdmin;
@@ -156,7 +156,7 @@ namespace _5Bites.Controllers
                     var sm = new Models.Employee_.Permissions.StoreModel();
                     sm.Id = s.Id;
                     sm.Name = s.Location.Name;
-                    sm.HasAccess = e.EmployeeStores.Count(x => x.Store == s) != 0;
+                    sm.HasAccess = e.EmployeeStores.Count(es => es.Store == s) != 0;
                     m.Stores.Add(sm);
                 }
 
@@ -165,7 +165,7 @@ namespace _5Bites.Controllers
                     var lm = new Models.Employee_.Permissions.LocationModel();
                     lm.Id = l.Id;
                     lm.Name = l.Name;
-                    lm.HasAccess = e.EmployeeLocations.Count(x => x.Location == l) != 0;
+                    lm.HasAccess = e.EmployeeLocations.Count(el => el.Location == l) != 0;
                     m.Locations.Add(lm);
                 }
             }
