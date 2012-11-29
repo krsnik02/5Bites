@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _5Bites.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -13,49 +14,24 @@ namespace _5Bites.Controllers
         public ActionResult Inventory()
         {
             var m = new _5Bites.Models.Store_.Inventory.ViewModel();
-
-            var con = new SqlConnection(
-                @"Integrated Security = true;
-                Data Source = (local)\SQLExpress;
-                Initial Catalog = 5Bites;");
-
+            using (var db = new DBContext())
             {
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT s.Id, l.Name FROM Store s
-                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId", con);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                var ss = db.Stores;
+                foreach (var s in ss)
                 {
-                    m.Stores.Add(new _5Bites.Models.Store_.Inventory.StoreModel
+                    var sm = new Models.Store_.Inventory.StoreModel();
+                    sm.StoreId = s.Id;
+                    sm.StoreName = s.Location.Name;
+                    foreach (var i in s.Location.Inventories)
                     {
-                        StoreId = int.Parse(reader["Id"].ToString()),
-                        StoreName = reader["Name"].ToString()
-                    });
+                        var pm = new Models.Store_.Inventory.ProductModel();
+                        pm.Description = i.Product.Name;
+                        pm.Price = i.Product.RetailPrice;
+                        pm.Quantity = i.Quantity;
+                        sm.Inventory.Add(pm);
+                    }
+                    m.Stores.Add(sm);
                 }
-                con.Close();
-            }
-
-            for (int i = 0; i < m.Stores.Count; ++i)
-            {
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT p.Name, p.RetailPrice, i.Quantity FROM Store s
-                    LEFT OUTER JOIN Inventory i ON i.LocationId = s.LocationId
-                    LEFT OUTER JOIN Product p ON p.Id = i.ProductId
-                    WHERE s.Id = @StoreId", con);
-                command.Parameters.AddWithValue("@StoreId", m.Stores[i].StoreId);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    m.Stores[i].Inventory.Add(new _5Bites.Models.Store_.Inventory.ProductModel
-                    {
-                        Description = reader["Name"].ToString(),
-                        Price = float.Parse(reader["RetailPrice"].ToString()),
-                        Quantity = int.Parse(reader["Quantity"].ToString())
-                    });
-                }
-                con.Close();
             }
 
             return View(m);
