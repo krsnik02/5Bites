@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _5Bites.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -26,41 +27,24 @@ namespace _5Bites.Controllers
          * Validate employee login
          */
         [HttpPost]
-        public ActionResult Login(_5Bites.Models.Employee_.Login.ViewModel m)
+        public ActionResult Login(Models.Employee_.Login.ViewModel m)
         {
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
 
-            var con = new SqlConnection(
-                @"Integrated Security = true;
-                Data Source = (local)\SqlExpress;
-                Initial Catalog = 5Bites;");
-
-            {   /* Get Employee Id */
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT e.Id, e.IsAdmin FROM Employee e
-                    WHERE e.Username = @Username AND e.Password = @Password", con);
-                command.Parameters.AddWithValue("@Username", m.Username);
-                command.Parameters.AddWithValue("@Password", hashed);
-                var reader = command.ExecuteReader();
-                if (reader.Read())
-                {
-                    Session.Contents["EmployeeId"] = int.Parse(reader["Id"].ToString());
-                    Session.Contents["EmployeeName"] = m.Username;
-                    Session.Contents["EmployeeAdmin"] = bool.Parse(reader["IsAdmin"].ToString());
-                }
-                con.Close();
+            using (var db = new DBEntities())
+            {
+                var employee = db.Employees.SingleOrDefault(
+                    e => e.Username == m.Username && e.Password == hashed);
+                Session.Contents["EmployeeId"] = employee.Id;
+                Session.Contents["EmployeeName"] = employee.Username;
+                Session.Contents["EmployeeAdmin"] = employee.IsAdmin;
             }
 
             if (Session.Contents["EmployeeId"] == null)
-            {
                 return RedirectToAction("Login", "Employee");
-            }
             else
-            {
                 return RedirectToAction("Index", "Home");
-            }
         }
 
         /**
@@ -97,63 +81,41 @@ namespace _5Bites.Controllers
             if (!((bool?)Session.Contents["EmployeeAdmin"] ?? false))
                 return RedirectToAction("Index", "Home");
 
-            var m = new _5Bites.Models.Employee_.Manage.ViewModel();
+            int EmployeeId = (int)Session.Contents["EmployeeId"];
+            var m = new Models.Employee_.Manage.ViewModel();
 
-            var con = new SqlConnection(
-                @"Integrated Security = true;
-                Data Source = (local)\SQLExpress;
-                Initial Catalog = 5Bites;");
-
+            using (var db = new DBEntities())
             {
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT e.Id, e.Username FROM Employee e
-                    WHERE e.Id <> @EmployeeId", con);
-                command.Parameters.AddWithValue("@EmployeeId", (int)Session.Contents["EmployeeId"]);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                var employees = db.Employees.Where(e => e.Id != EmployeeId);
+                var stores = db.Stores;
+                var locations = db.Locations;
+
+                foreach (var employee in employees)
                 {
-                    m.Employees.Add(new _5Bites.Models.Employee_.Manage.EmployeeModel
+                    m.Employees.Add(new Models.Employee_.Manage.EmployeeModel
                     {
-                        Id = int.Parse(reader["Id"].ToString()),
-                        Username = reader["Username"].ToString()
+                        Id = employee.Id,
+                        Username = employee.Username
                     });
                 }
-                con.Close();
-            }
 
-
-            {
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT s.Id, l.Name FROM Store s
-                    LEFT OUTER JOIN Location l ON l.Id = s.LocationId", con);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                foreach (var store in stores)
                 {
-                    m.Hire.Stores.Add(new _5Bites.Models.Employee_.Hire.StoreModel
+                    m.Hire.Stores.Add(new Models.Employee_.Hire.StoreModel
                     {
-                        Id = int.Parse(reader["Id"].ToString()),
-                        Name = reader["Name"].ToString()
+                        Id = store.Id,
+                        Name = store.Location.Name
                     });
                 }
-                con.Close();
-            }
 
-            {
-                con.Open();
-                var command = new SqlCommand(
-                    @"SELECT l.Id, l.Name FROM Location l", con);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                foreach (var location in locations)
                 {
-                    m.Hire.Locations.Add(new _5Bites.Models.Employee_.Hire.LocationModel
+                    m.Hire.Locations.Add(new Models.Employee_.Hire.LocationModel
                     {
-                        Id = int.Parse(reader["Id"].ToString()),
-                        Name = reader["Name"].ToString()
+                        Id = location.Id,
+                        Name = location.Name
                     });
                 }
-                con.Close();
             }
 
             return View(m);

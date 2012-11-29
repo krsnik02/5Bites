@@ -21,7 +21,7 @@ namespace _5Bites.Models
         }
     
         public int Id { get; set; }
-        public Nullable<decimal> Bank { get; set; }
+        public decimal Bank { get; set; }
     
         public virtual ICollection<EmployeeStore> EmployeeStores { get; set; }
         public virtual Location Location { get; set; }

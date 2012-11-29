@@ -22,8 +22,8 @@ namespace _5Bites.Models
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public Nullable<decimal> RetailPrice { get; set; }
-        public Nullable<decimal> WholesalePrice { get; set; }
+        public decimal RetailPrice { get; set; }
+        public decimal WholesalePrice { get; set; }
     
         public virtual ICollection<Inventory> Inventories { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
