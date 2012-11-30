@@ -16,7 +16,7 @@ namespace _5Bites.Controllers
             var m = new _5Bites.Models.Store_.Inventory.ViewModel();
             using (var db = new DBContext())
             {
-                var ss = db.Stores;
+                var ss = db.Stores.Include("Location");
                 foreach (var s in ss)
                 {
                     var sm = new Models.Store_.Inventory.StoreModel();
@@ -75,7 +75,7 @@ namespace _5Bites.Controllers
             using (var db = new DBContext())
             {
                 var s = db.Stores.Single(s_ => s_.Id == m.StoreId);
-                foreach (var pm in m.Inventory)
+                foreach (var pm in m.Inventory.Where(pm => pm.Quantity != 0))
                 {
                     var t = new Transaction();
                     t.ProductId = pm.Id;

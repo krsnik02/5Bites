@@ -8,6 +8,7 @@
 
 @using (Html.BeginForm("Permissions", "Employee", new { id = UrlParameter.Optional }))
 {
+    @Html.ValidationSummary()
     @Html.HiddenFor(m => m.Id)
     @Html.LabelFor(m => m.IsAdmin)
     @Html.CheckBoxFor(m => m.IsAdmin)

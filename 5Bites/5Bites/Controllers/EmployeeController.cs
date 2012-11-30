@@ -21,22 +21,26 @@ namespace _5Bites.Controllers
         [HttpPost]
         public ActionResult Login(Models.Employee_.Login.ViewModel m)
         {
-            SHA256 sha256 = new SHA256Managed();
-            byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
-
-            using (var db = new DBContext())
+            if (ModelState.IsValid)
             {
-                var employee = db.Employees.SingleOrDefault(
-                    e => e.Username == m.Username && e.Password == hashed);
-                Session.Contents["EmployeeId"] = employee.Id;
-                Session.Contents["EmployeeName"] = employee.Username;
-                Session.Contents["EmployeeAdmin"] = employee.IsAdmin;
-            }
+                SHA256 sha256 = new SHA256Managed();
+                byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
 
-            if (Session.Contents["EmployeeId"] == null)
-                return RedirectToAction("Login", "Employee");
-            else
-                return RedirectToAction("Index", "Home");
+                using (var db = new DBContext())
+                {
+                    var employee = db.Employees.SingleOrDefault(
+                        e => e.Username == m.Username && e.Password == hashed);
+                    Session.Contents["EmployeeId"] = employee.Id;
+                    Session.Contents["EmployeeName"] = employee.Username;
+                    Session.Contents["EmployeeAdmin"] = employee.IsAdmin;
+                }
+
+                if (Session.Contents["EmployeeId"] == null)
+                    return View();
+                else
+                    return RedirectToAction("Index", "Home");
+            }
+            return View();
         }
 
         [HttpGet]
@@ -66,9 +70,7 @@ namespace _5Bites.Controllers
 
             using (var db = new DBContext())
             {
-                var employees = from e in db.Employees
-                                where e.Id != EmployeeId
-                                select e;
+                var employees = db.Employees.Where(e => e.Id != EmployeeId);
                 var stores = db.Stores;
                 var locations = db.Locations;
 
