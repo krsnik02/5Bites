@@ -5,14 +5,14 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="3d60e5744bfa435f9550009ac65af060" Name="Diagram1">
-        <EntityTypeShape EntityType="FiveBitesModel.Employee" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.EmployeeLocation" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.EmployeeStore" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Inventory" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Location" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Product" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Store" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Transaction" Width="1.5" PointX="8.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FiveBitesModel.Employee" Width="1.5" PointX="3.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FiveBitesModel.EmployeeLocation" Width="1.5" PointX="3.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FiveBitesModel.EmployeeStore" Width="1.5" PointX="3.25" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="FiveBitesModel.Inventory" Width="1.5" PointX="3.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FiveBitesModel.Location" Width="1.5" PointX="0.875" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FiveBitesModel.Product" Width="1.5" PointX="5.375" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FiveBitesModel.Store" Width="1.5" PointX="5.375" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="FiveBitesModel.Transaction" Width="1.5" PointX="5.375" PointY="5.875" IsExpanded="true" />
         <AssociationConnector Association="FiveBitesModel.FK__EmployeeL__Emplo__2A164134" ManuallyRouted="false" />
         <AssociationConnector Association="FiveBitesModel.FK__EmployeeS__Emplo__2EDAF651" ManuallyRouted="false" />
         <AssociationConnector Association="FiveBitesModel.FK__Transacti__Emplo__3493CFA7" ManuallyRouted="false" />
