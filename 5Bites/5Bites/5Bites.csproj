@@ -346,20 +346,20 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Employee\Login.cshtml" />
     <Content Include="Views\Store\Sell.cshtml" />
     <Content Include="Views\Store\Inventory.cshtml" />
-    <Content Include="Views\Shared\_StoreSellPartial.cshtml" />
+    <Content Include="Views\Shared\StoreSellPartial.cshtml" />
     <Content Include="Views\Employee\Manage.cshtml" />
-    <Content Include="Views\Shared\_EmployeeHirePartial.cshtml" />
+    <Content Include="Views\Shared\EmployeeHirePartial.cshtml" />
     <Content Include="Views\Inventory\Transfer.cshtml" />
     <Content Include="Views\Employee\Account.cshtml" />
     <Content Include="Views\Employee\Permissions.cshtml" />
     <Content Include="Views\Inventory\Purchase.cshtml" />
-    <Content Include="Views\Shared\_InventoryPurchasePartial.cshtml" />
+    <Content Include="Views\Shared\InventoryPurchasePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

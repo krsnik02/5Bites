@@ -29,13 +29,13 @@
                 {
                     <tr>
                         <td>@employee.Username</td>
-                        <td>@Html.ActionLink("Edit Permissions", "Permissions", "Employee", new { id = employee.Id }, new { })</td>     <!-- all -->
+                        <td>@Html.ActionLink("Edit Permissions", "Permissions", "Employee", new { id = employee.Id }, new { })</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
     <div id="tab-hire">
-        @Html.Partial("_EmployeeHirePartial", Model.Hire)                                             <!-- mostly -->
+        @Html.Partial("EmployeeHirePartial", Model.Hire)
     </div>
 </div>

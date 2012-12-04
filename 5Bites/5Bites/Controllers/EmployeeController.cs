@@ -70,11 +70,7 @@ namespace _5Bites.Controllers
 
             using (var db = new DBContext())
             {
-                var employees = db.Employees.Where(e => e.Id != EmployeeId);
-                var stores = db.Stores;
-                var locations = db.Locations;
-
-                foreach (var e in employees)
+                foreach (var e in db.Employees.Where(e => e.Id != EmployeeId))
                 {
                     var em = new Models.Employee_.Manage.EmployeeModel();
                     em.Id = e.Id;
@@ -82,7 +78,7 @@ namespace _5Bites.Controllers
                     m.Employees.Add(em);
                 }
 
-                foreach (var s in stores)
+                foreach (var s in db.Stores)
                 {
                     var sm = new Models.Employee_.Hire.StoreModel();
                     sm.Id = s.Id;
@@ -90,7 +86,7 @@ namespace _5Bites.Controllers
                     m.Hire.Stores.Add(sm);
                 }
 
-                foreach (var l in locations)
+                foreach (var l in db.Locations)
                 {
                     var lm = new Models.Employee_.Hire.LocationModel();
                     lm.Id = l.Id;
@@ -180,7 +176,7 @@ namespace _5Bites.Controllers
         {
             using (var db = new DBContext())
             {
-                var e = db.Employees.Single(x => x.Id == m.Id);
+                var e = db.Employees.Single(e_ => e_.Id == m.Id);
                 e.IsAdmin = m.IsAdmin;
 
                 e.EmployeeStores.Clear();

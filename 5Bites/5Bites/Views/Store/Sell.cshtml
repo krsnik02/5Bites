@@ -26,7 +26,7 @@
     @foreach (var store in Model.Stores)
     {
         <div id="@("tab-" + store.StoreId)">
-            @Html.Partial("_StoreSellPartial", store)
+            @Html.Partial("StoreSellPartial", store)
         </div>
     }
 </div>

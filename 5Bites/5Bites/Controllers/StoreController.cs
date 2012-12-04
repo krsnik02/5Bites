@@ -84,6 +84,7 @@ namespace _5Bites.Controllers
                     t.Quantity = pm.Quantity;
                     t.Timestamp = DateTime.Now;
                     db.Transactions.Add(t);
+
                     s.Location.Inventories.Single(i => i.ProductId == pm.Id).Quantity -= pm.Quantity;
                 }
                 s.Bank += m.Inventory.Sum(pm => pm.Quantity * pm.Price);
