@@ -293,6 +293,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>5BitesDBModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Images\5BitesLogo.jpg" />
     <Content Include="Models\5BitesDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>5BitesDBModel.edmx</DependentUpon>
