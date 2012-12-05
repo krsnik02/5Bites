@@ -293,7 +293,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>5BitesDBModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Images\5BitesLogo.jpg" />
     <Content Include="Models\5BitesDBModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>5BitesDBModel.edmx</DependentUpon>
@@ -322,9 +321,7 @@
     <Content Include="Scripts\knockout-2.1.0.debug.js" />
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
