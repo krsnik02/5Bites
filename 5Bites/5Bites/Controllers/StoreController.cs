@@ -14,7 +14,7 @@ namespace _5Bites.Controllers
         public ActionResult Inventory()
         {
             var m = new _5Bites.Models.Store_.Inventory.ViewModel();
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 var ss = db.Stores.Include("Location");
                 foreach (var s in ss)
@@ -43,7 +43,7 @@ namespace _5Bites.Controllers
             int EmployeeId = (int)Session.Contents["EmployeeId"];
             var m = new _5Bites.Models.Store_.Sell.ViewModel();
 
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 var ss = db.EmployeeStores.Where(es => es.EmployeeId == EmployeeId).Select(es => es.Store);
                 foreach (var s in ss)
@@ -72,7 +72,7 @@ namespace _5Bites.Controllers
         {
             int EmployeeId = (int)Session.Contents["EmployeeId"];
 
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 var s = db.Stores.Single(s_ => s_.Id == m.StoreId);
                 foreach (var pm in m.Inventory.Where(pm => pm.Quantity != 0))

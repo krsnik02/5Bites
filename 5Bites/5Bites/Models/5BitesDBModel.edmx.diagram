@@ -4,25 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3d60e5744bfa435f9550009ac65af060" Name="Diagram1">
-        <EntityTypeShape EntityType="FiveBitesModel.Employee" Width="1.5" PointX="3.25" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.EmployeeLocation" Width="1.5" PointX="3.25" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.EmployeeStore" Width="1.5" PointX="3.25" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Inventory" Width="1.5" PointX="3.25" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Location" Width="1.5" PointX="1.25" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Product" Width="1.5" PointX="5.375" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Store" Width="1.5" PointX="5.375" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="FiveBitesModel.Transaction" Width="1.5" PointX="5.375" PointY="5.75" IsExpanded="true" />
-        <AssociationConnector Association="FiveBitesModel.FK__EmployeeL__Emplo__2A164134" ManuallyRouted="false" />
-        <AssociationConnector Association="FiveBitesModel.FK__EmployeeS__Emplo__2EDAF651" ManuallyRouted="false" />
-        <AssociationConnector Association="FiveBitesModel.FK__Transacti__Emplo__3493CFA7" ManuallyRouted="false" />
-        <AssociationConnector Association="FiveBitesModel.FK__EmployeeL__Locat__2B0A656D" ManuallyRouted="false" />
-        <AssociationConnector Association="FiveBitesModel.FK__EmployeeS__Store__2FCF1A8A" ManuallyRouted="false" />
-        <AssociationConnector Association="FiveBitesModel.FK__Inventory__Locat__208CD6FA" ManuallyRouted="false" />
-        <AssociationConnector Association="FiveBitesModel.FK__Inventory__Produ__1F98B2C1" ManuallyRouted="false" />
-        <AssociationConnector Association="FiveBitesModel.FK__Store__LocationI__1BC821DD" ManuallyRouted="false" />
-        <AssociationConnector Association="FiveBitesModel.FK__Transacti__Produ__32AB8735" ManuallyRouted="false" />
-        <AssociationConnector Association="FiveBitesModel.FK__Transacti__Store__339FAB6E" ManuallyRouted="false" />
+      <Diagram DiagramId="54a66c8926964db09a194a2c2fb4ac12" Name="Diagram1">
+        <EntityTypeShape EntityType="db0879e2fa5fd2470baccfa11e00212d57Model.Employee" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="db0879e2fa5fd2470baccfa11e00212d57Model.EmployeeLocation" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="db0879e2fa5fd2470baccfa11e00212d57Model.EmployeeStore" Width="1.5" PointX="5.25" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="db0879e2fa5fd2470baccfa11e00212d57Model.Inventory" Width="1.5" PointX="3" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db0879e2fa5fd2470baccfa11e00212d57Model.Location" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="db0879e2fa5fd2470baccfa11e00212d57Model.Product" Width="1.5" PointX="0.75" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="db0879e2fa5fd2470baccfa11e00212d57Model.Store" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="db0879e2fa5fd2470baccfa11e00212d57Model.Transaction" Width="1.5" PointX="8.25" PointY="11.25" IsExpanded="true" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__EmployeeL__Emplo__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__EmployeeS__Emplo__34C8D9D1" ManuallyRouted="false" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__Transacti__Emplo__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__EmployeeL__Locat__2D27B809" ManuallyRouted="false" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__EmployeeS__Store__35BCFE0A" ManuallyRouted="false" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__Inventory__Locat__1920BF5C" ManuallyRouted="false" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__Inventory__Produ__182C9B23" ManuallyRouted="false" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__Store__LocationI__108B795B" ManuallyRouted="false" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__Transacti__Produ__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="db0879e2fa5fd2470baccfa11e00212d57Model.FK__Transacti__Store__3B75D760" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

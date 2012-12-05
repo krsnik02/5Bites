@@ -15,7 +15,7 @@ namespace _5Bites.Controllers
             int EmployeeId = (int)Session.Contents["EmployeeId"];
             var m = new Models.Inventory_.Transfer.ViewModel();
 
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 var ps = db.Products;
                 var ls = db.EmployeeLocations.Where(el => el.EmployeeId == EmployeeId).Select(el => el.Location);
@@ -43,7 +43,7 @@ namespace _5Bites.Controllers
         [HttpPost]
         public ActionResult Transfer(Models.Inventory_.Transfer.ViewModel m)
         {
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 foreach (var lm in m.Locations)
                 {
@@ -63,7 +63,7 @@ namespace _5Bites.Controllers
             int EmployeeId = (int)Session.Contents["EmployeeId"];
             var m = new Models.Inventory_.Purchase.ViewModel();
 
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 var ps = db.Products;
                 var ls = db.EmployeeLocations.Where(el => el.EmployeeId == EmployeeId).Select(el => el.Location);
@@ -92,7 +92,7 @@ namespace _5Bites.Controllers
         [HttpPost]
         public ActionResult Purchase(Models.Inventory_.Purchase.LocationModel m)
         {
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 foreach (var pm in m.Inventory)
                 {

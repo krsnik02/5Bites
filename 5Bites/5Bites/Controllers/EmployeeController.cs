@@ -26,7 +26,7 @@ namespace _5Bites.Controllers
                 SHA256 sha256 = new SHA256Managed();
                 byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
 
-                using (var db = new DBContext())
+                using (var db = new dbEntities())
                 {
                     var employee = db.Employees.SingleOrDefault(
                         e => e.Username == m.Username && e.Password == hashed);
@@ -68,7 +68,7 @@ namespace _5Bites.Controllers
             int EmployeeId = (int)Session.Contents["EmployeeId"];
             var m = new Models.Employee_.Manage.ViewModel();
 
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 foreach (var e in db.Employees.Where(e => e.Id != EmployeeId))
                 {
@@ -104,7 +104,7 @@ namespace _5Bites.Controllers
             SHA256 sha256 = new SHA256Managed();
             byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
 
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 var e = new Employee();
                 e.Username = m.Username;
@@ -142,7 +142,7 @@ namespace _5Bites.Controllers
 
             var m = new _5Bites.Models.Employee_.Permissions.ViewModel();
 
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 var e = db.Employees.Single(e_ => e_.Id == id);
                 m.Id = e.Id;
@@ -174,7 +174,7 @@ namespace _5Bites.Controllers
         [HttpPost]
         public ActionResult Permissions(_5Bites.Models.Employee_.Permissions.ViewModel m)
         {
-            using (var db = new DBContext())
+            using (var db = new dbEntities())
             {
                 var e = db.Employees.Single(e_ => e_.Id == m.Id);
                 e.IsAdmin = m.IsAdmin;
