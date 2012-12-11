@@ -121,37 +121,41 @@ namespace _5Bites.Controllers
         [HttpPost]
         public ActionResult Hire(Models.Employee_.Manage.ViewModel m)
         {
-            SHA256 sha256 = new SHA256Managed();
-            byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Hire.Password));
-
-            using (var db = new dbEntities())
+            if (ModelState.IsValid)
             {
-                var e = new Employee();
-                e.Username = m.Hire.Username;
-                e.Password = hashed;
-                e.IsAdmin = m.Hire.IsAdmin;
+                SHA256 sha256 = new SHA256Managed();
+                byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Hire.Password));
 
-                foreach (var s in m.Hire.Stores.Where(s => s.HasAccess))
+                using (var db = new dbEntities())
                 {
-                    var es = new EmployeeStore();
-                    es.Employee = e;
-                    es.StoreId = s.Id;
-                    e.EmployeeStores.Add(es);
+                    var e = new Employee();
+                    e.Username = m.Hire.Username;
+                    e.Password = hashed;
+                    e.IsAdmin = m.Hire.IsAdmin;
+
+                    foreach (var s in m.Hire.Stores.Where(s => s.HasAccess))
+                    {
+                        var es = new EmployeeStore();
+                        es.Employee = e;
+                        es.StoreId = s.Id;
+                        e.EmployeeStores.Add(es);
+                    }
+
+                    foreach (var l in m.Hire.Locations.Where(l => l.HasAccess))
+                    {
+                        var el = new EmployeeLocation();
+                        el.Employee = e;
+                        el.LocationId = l.Id;
+                        e.EmployeeLocations.Add(el);
+                    }
+
+                    db.Employees.Add(e);
+                    db.SaveChanges();
                 }
 
-                foreach (var l in m.Hire.Locations.Where(l => l.HasAccess))
-                {
-                    var el = new EmployeeLocation();
-                    el.Employee = e;
-                    el.LocationId = l.Id;
-                    e.EmployeeLocations.Add(el);
-                }
-
-                db.Employees.Add(e);
-                db.SaveChanges();
+                return RedirectToAction("Manage", "Employee");
             }
-
-            return RedirectToAction("Manage", "Employee");
+            return View();
         }
 
         [HttpGet]

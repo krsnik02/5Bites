@@ -48,8 +48,10 @@
         {
             @Html.LabelFor(m => m.Hire.Username)
             @Html.TextBoxFor(m => m.Hire.Username)
+            @Html.ValidationMessageFor(m => m.Hire.Username)
             @Html.LabelFor(m => m.Hire.Password)
             @Html.PasswordFor(m => m.Hire.Password)
+            @Html.ValidationMessageFor(m => m.Hire.Password)
 
             @Html.LabelFor(m => m.Hire.IsAdmin)
             @Html.CheckBoxFor(m => m.Hire.IsAdmin)
