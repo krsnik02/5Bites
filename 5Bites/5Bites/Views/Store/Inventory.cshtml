@@ -7,17 +7,19 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryui")
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
     @Styles.Render("~/Content/themes/base/css")
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#store-tabs').tabs();
+            $('.datatable').dataTable();
+            $('.tabs').tabs();
         });
     </script>
 }
 
 <h2>Current Inventory</h2>
 
-<div id="store-tabs">
+<div class="tabs">
     <ul>
         @foreach (var store in Model.Stores)
         {
@@ -27,7 +29,7 @@
     @foreach (var store in Model.Stores)
     {
         <div id="@("tab-" + store.StoreId)">
-            <table>
+            <table class="datatable">
                 <thead>
                     <tr>
                         <th>Product</th>

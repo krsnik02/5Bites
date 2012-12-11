@@ -7,10 +7,12 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryui")
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
     @Styles.Render("~/Content/themes/base/css")
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#tabs').tabs();
+            $('.tabs').tabs();
+            $('.datatable').dataTable();
         });
     </script>
 }
@@ -19,7 +21,7 @@
 
 <h2>Transfer</h2>
 @Html.ValidationSummary()
-<div id="tabs">
+<div class="tabs">
     <ul>
         @foreach (var location in Model.Locations)
         {
@@ -32,7 +34,7 @@
         {
             <div id="@("tab-" + Model.Locations[i].Id)">
                 @Html.HiddenFor(m => m.Locations[i].Id)
-                <table>
+                <table class="datatable">
                     <thead>
                         <tr>
                             <th>Product</th>
