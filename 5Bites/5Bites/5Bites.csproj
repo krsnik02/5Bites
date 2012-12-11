@@ -194,6 +194,7 @@
     <Compile Include="Models\EmployeeStore.cs">
       <DependentUpon>5BitesDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Employee\Account\ViewModel.cs" />
     <Compile Include="Models\Employee\Hire\LocationModel.cs" />
     <Compile Include="Models\Employee\Hire\StoreModel.cs" />
     <Compile Include="Models\Employee\Login\ViewModel.cs" />

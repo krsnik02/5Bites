@@ -30,15 +30,14 @@ namespace _5Bites.Controllers
                 {
                     var employee = db.Employees.SingleOrDefault(
                         e => e.Username == m.Username && e.Password == hashed);
+                    if (employee == null)
+                        return View();
+
                     Session.Contents["EmployeeId"] = employee.Id;
                     Session.Contents["EmployeeName"] = employee.Username;
                     Session.Contents["EmployeeAdmin"] = employee.IsAdmin;
                 }
-
-                if (Session.Contents["EmployeeId"] == null)
-                    return View();
-                else
-                    return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
             }
             return View();
         }
@@ -46,6 +45,27 @@ namespace _5Bites.Controllers
         [HttpGet]
         public ActionResult Account()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Account(Models.Employee_.Account.ViewModel m)
+        {
+            if (ModelState.IsValid)
+            {
+                SHA256 sha256 = new SHA256Managed();
+                byte[] oldhashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.OldPassword));
+                byte[] newhashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.NewPassword));
+
+                int EmployeeId = (int)Session.Contents["EmployeeId"];
+                using (var db = new dbEntities())
+                {
+                    var e = db.Employees.Single(e_ => e_.Id == EmployeeId);
+                    if (e.Password == oldhashed) e.Password = newhashed;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 

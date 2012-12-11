@@ -1,7 +1,20 @@
-﻿@{
+﻿@model _5Bites.Models.Employee_.Account.ViewModel
+
+@{
     ViewBag.Title = "Account";
 }
 
-<h2>Account</h2>
+<h2>Account for @Session.Contents["EmployeeName"]</h2>
 
-<p>TODO: Implement this page</p>
+@using (Html.BeginForm("Account", "Employee"))
+{
+    @Html.LabelFor(m => m.OldPassword)
+    @Html.PasswordFor(m => m.OldPassword)
+    @Html.ValidationMessageFor(m => m.OldPassword)
+
+    @Html.LabelFor(m => m.NewPassword)
+    @Html.PasswordFor(m => m.NewPassword)
+    @Html.ValidationMessageFor(m => m.NewPassword)
+
+    <input type="submit" value="Change Password" />
+}
