@@ -1,8 +1,9 @@
 ﻿@model _5Bites.Models.Store_.Sell.StoreModel
 
-@using (Html.BeginForm("Sell", "Store"))
+@using (Html.BeginForm("ConfirmSale", "Store"))
 {
     @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Name)
     @Html.FormatValue(Model.Bank, "{0:C2}")
 
     <table class="datatable">
@@ -18,6 +19,7 @@
             {
                 <tr>
                     @Html.HiddenFor(m => m.Inventory[i].Id)
+                    @Html.HiddenFor(m => m.Inventory[i].Description)
                     @Html.HiddenFor(m => m.Inventory[i].Price)
                     <td>@Html.FormatValue(Model.Inventory[i].Description, "{0}")</td>
                     <td>@Html.FormatValue(Model.Inventory[i].Price, "{0:C2}")</td>
@@ -28,5 +30,5 @@
             }
         </tbody>
     </table>
-    <input class="submit" type="submit" value="Sell" />
+    <input type="submit" value="Sell" />
 }

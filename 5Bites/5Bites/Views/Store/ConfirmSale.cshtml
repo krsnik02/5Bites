@@ -1,0 +1,22 @@
+﻿@model _5Bites.Models.Store_.Sell.StoreModel
+
+@{
+    ViewBag.Title = "Confirm Sale";
+    decimal TotalSales = Model.Inventory.Where(pm => pm.Quantity != 0).Sum(pm => pm.Quantity * pm.Price);
+}
+
+<h2>@Html.FormatValue(Model.Name, "{0}")</h2>
+<p>Please confirm sale of @Html.FormatValue(TotalSales,"{0:C2}").</p>
+
+@using (Html.BeginForm("Sell", "Store"))
+{
+    @Html.HiddenFor(m => m.Id)
+    for (int i = 0; i < Model.Inventory.Count; ++i)
+    {
+        @Html.HiddenFor(m => m.Inventory[i].Id)
+        @Html.HiddenFor(m => m.Inventory[i].Price)
+        @Html.HiddenFor(m => m.Inventory[i].Quantity)
+    }
+    <input type="submit" value="Confirm" />
+    @Html.ActionLink("Cancel", "Sell", "Store");
+}

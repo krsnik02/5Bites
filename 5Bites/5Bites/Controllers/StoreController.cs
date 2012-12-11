@@ -69,6 +69,12 @@ namespace _5Bites.Controllers
         }
 
         [HttpPost]
+        public ActionResult ConfirmSale(_5Bites.Models.Store_.Sell.StoreModel m)
+        {
+            return View(m);
+        }
+
+        [HttpPost]
         public ActionResult Sell(_5Bites.Models.Store_.Sell.StoreModel m)
         {
             int EmployeeId = (int)Session.Contents["EmployeeId"];

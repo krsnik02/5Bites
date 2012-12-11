@@ -363,6 +363,7 @@
     <Content Include="Views\Employee\Permissions.cshtml" />
     <Content Include="Views\Inventory\Purchase.cshtml" />
     <Content Include="Views\Shared\InventoryPurchasePartial.cshtml" />
+    <Content Include="Views\Store\ConfirmSale.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
