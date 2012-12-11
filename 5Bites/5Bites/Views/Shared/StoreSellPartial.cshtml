@@ -3,7 +3,6 @@
 @using (Html.BeginForm("Sell", "Store"))
 {
     @Html.HiddenFor(m => m.Id)
-    @Html.LabelFor(m => m.Bank)
     @Html.FormatValue(Model.Bank, "{0:C2}")
 
     <table class="datatable">
@@ -17,9 +16,9 @@
         <tbody>
             @for (int i = 0; i < Model.Inventory.Count; ++i)
             {
-                @Html.HiddenFor(m => m.Inventory[i].Id)
-                @Html.HiddenFor(m => m.Inventory[i].Price)
                 <tr>
+                    @Html.HiddenFor(m => m.Inventory[i].Id)
+                    @Html.HiddenFor(m => m.Inventory[i].Price)
                     <td>@Html.FormatValue(Model.Inventory[i].Description, "{0}")</td>
                     <td>@Html.FormatValue(Model.Inventory[i].Price, "{0:C2}")</td>
                     <td>@Html.TextBoxFor(m => m.Inventory[i].Quantity, new { @Value = 0 })
@@ -29,5 +28,5 @@
             }
         </tbody>
     </table>
-    <input type="submit" value="Sell" />
+    <input class="submit" type="submit" value="Sell" />
 }

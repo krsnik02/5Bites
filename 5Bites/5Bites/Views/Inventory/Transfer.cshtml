@@ -44,8 +44,8 @@
                     <tbody>
                         @for (int j = 0; j < Model.Locations[i].Inventory.Count;++j)
                         {
-                            @Html.HiddenFor(m => m.Locations[i].Inventory[j].Id)
                             <tr>
+                                @Html.HiddenFor(m => m.Locations[i].Inventory[j].Id)
                                 <td>@Html.FormatValue(Model.Locations[i].Inventory[j].Name, "{0}")</td>
                                 <td>@Html.TextBoxFor(m => m.Locations[i].Inventory[j].Quantity)
                                     (was @Html.FormatValue(Model.Locations[i].Inventory[j].Quantity, "{0}"))
