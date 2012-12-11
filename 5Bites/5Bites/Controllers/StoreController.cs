@@ -20,8 +20,8 @@ namespace _5Bites.Controllers
                 foreach (var s in ss)
                 {
                     var sm = new Models.Store_.Inventory.StoreModel();
-                    sm.StoreId = s.Id;
-                    sm.StoreName = s.Location.Name;
+                    sm.Id = s.Id;
+                    sm.Name = s.Location.Name;
                     foreach (var i in s.Location.Inventories)
                     {
                         var pm = new Models.Store_.Inventory.ProductModel();
@@ -49,8 +49,9 @@ namespace _5Bites.Controllers
                 foreach (var s in ss)
                 {
                     var sm = new Models.Store_.Sell.StoreModel();
-                    sm.StoreId = s.Id;
-                    sm.StoreName = s.Location.Name;
+                    sm.Id = s.Id;
+                    sm.Bank = s.Bank;
+                    sm.Name = s.Location.Name;
                     foreach (var i in s.Location.Inventories)
                     {
                         var pm = new Models.Store_.Sell.ProductModel();
@@ -74,12 +75,12 @@ namespace _5Bites.Controllers
 
             using (var db = new dbEntities())
             {
-                var s = db.Stores.Single(s_ => s_.Id == m.StoreId);
+                var s = db.Stores.Single(s_ => s_.Id == m.Id);
                 foreach (var pm in m.Inventory.Where(pm => pm.Quantity != 0))
                 {
                     var t = new Transaction();
                     t.ProductId = pm.Id;
-                    t.StoreId = m.StoreId;
+                    t.StoreId = m.Id;
                     t.EmployeeId = EmployeeId;
                     t.Quantity = pm.Quantity;
                     t.Timestamp = DateTime.Now;

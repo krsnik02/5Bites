@@ -2,7 +2,10 @@
 
 @using (Html.BeginForm("Sell", "Store"))
 {
-    @Html.HiddenFor(m => m.StoreId)
+    @Html.HiddenFor(m => m.Id)
+    @Html.LabelFor(m => m.Bank)
+    @Html.FormatValue(Model.Bank, "{0:C2}")
+
     <table class="datatable">
         <thead>
             <tr>

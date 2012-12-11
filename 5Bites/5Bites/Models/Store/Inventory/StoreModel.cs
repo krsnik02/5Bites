@@ -7,8 +7,8 @@ namespace _5Bites.Models.Store_.Inventory
 {
     public class StoreModel
     {
-        public int StoreId { get; set; }
-        public string StoreName { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
         public List<ProductModel> Inventory { get; set; }
 
         public StoreModel()

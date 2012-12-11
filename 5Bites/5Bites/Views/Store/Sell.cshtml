@@ -22,12 +22,12 @@
     <ul>
         @foreach (var store in Model.Stores)
         {
-            <li><a href="@("#tab-" + store.StoreId)">@store.StoreName</a></li>
+            <li><a href="@("#tab-" + store.Id)">@store.Name</a></li>
         }
     </ul>
     @foreach (var store in Model.Stores)
     {
-        <div id="@("tab-" + store.StoreId)">
+        <div id="@("tab-" + store.Id)">
             @Html.Partial("StoreSellPartial", store)
         </div>
     }
