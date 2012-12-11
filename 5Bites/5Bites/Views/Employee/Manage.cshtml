@@ -35,7 +35,7 @@
                 {
                     <tr>
                         <td>@employee.Username</td>
-                        <td>@Html.ActionLink("Edit Permissions", "Permissions", "Employee", new { id = employee.Id })</td>
+                        <td>@Html.ActionLink("Edit Permissions", "Permissions", "Employee", new { @id = employee.Id }, new { })</td>
                     </tr>
                 }
             </tbody>
@@ -55,21 +55,42 @@
             @Html.CheckBoxFor(m => m.Hire.IsAdmin)
             <div>
                 <h3>Can Sell</h3>
-                @for (int i = 0; i < Model.Hire.Stores.Count; ++i)
-                {
-                    @Html.HiddenFor(m => m.Hire.Stores[i].Id)
-                    @Html.LabelFor(m => m.Hire.Stores[i].HasAccess, Model.Hire.Stores[i].Name)
-                    @Html.CheckBoxFor(m => m.Hire.Stores[i].HasAccess)
-                }
+                <table>
+                        <tr>
+                            @for (int i = 0; i < Model.Hire.Stores.Count; ++i)
+                            {
+                                <td>@Html.LabelFor(m => m.Hire.Stores[i].HasAccess, Model.Hire.Stores[i].Name)</td>
+                            }
+                        </tr>
+                        <tr>
+                            @for (int i = 0; i < Model.Hire.Stores.Count; ++i)
+                            {
+                                <td>@Html.HiddenFor(m => m.Hire.Stores[i].Id)
+                                    @Html.CheckBoxFor(m => m.Hire.Stores[i].HasAccess)
+                                </td>
+                            }
+                        </tr>
+                </table>
             </div>
             <div>
                 <h3>Can Manage Inventory</h3>
-                @for (int i = 0; i < Model.Hire.Locations.Count; ++i)
-                {
-                    @Html.HiddenFor(m => m.Hire.Locations[i].Id)
-                    @Html.LabelFor(m => m.Hire.Locations[i].HasAccess, Model.Hire.Locations[i].Name)
-                    @Html.CheckBoxFor(m => m.Hire.Locations[i].HasAccess)
-                }
+                
+                <table>
+                        <tr>
+                            @for (int i = 0; i < Model.Hire.Locations.Count; ++i)
+                            {
+                                <td>@Html.LabelFor(m => m.Hire.Locations[i].HasAccess, Model.Hire.Locations[i].Name)</td>
+                            }
+                        </tr>
+                        <tr>
+                            @for (int i = 0; i < Model.Hire.Locations.Count; ++i)
+                            {
+                                <td>@Html.HiddenFor(m => m.Hire.Locations[i].Id)
+                                    @Html.CheckBoxFor(m => m.Hire.Locations[i].HasAccess)
+                                </td>
+                            }
+                        </tr>
+                </table>
             </div>
             <br />
             <input type="submit" value="Hire" class="button" />
