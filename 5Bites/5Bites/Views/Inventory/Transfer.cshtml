@@ -14,50 +14,53 @@
             $('.spinner').spinner();
         });
     </script>
+
+    <style type="text/css">
+        .ui-spinner {
+            width: 60px;
+        }
+    </style>
 }
 
 <!-- TODO: clean up this interface -->
 
 <h2>Transfer</h2>
-<div class="tabs">
-    <ul>
-        @foreach (var location in Model.Locations)
-        {
-            <li><a href="@("#tab-" + location.Id)">@location.Name</a></li>
-        }
-    </ul>
-    @using (Html.BeginForm("Transfer", "Inventory"))
-    {
-        for (int i = 0; i < Model.Locations.Count; ++i)
-        {
-            <div id="@("tab-" + Model.Locations[i].Id)">
-                @Html.HiddenFor(m => m.Locations[i].Id)
-                @Html.HiddenFor(m => m.Locations[i].Name)
-                @Html.ValidationMessageFor(m => m.Locations)
-                <table class="datatable">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (int j = 0; j < Model.Locations[i].Inventory.Count;++j)
+
+@using (Html.BeginForm("Transfer", "Inventory"))
+{
+    @Html.ValidationMessageFor(m => m.Locations)
+    <table class="datatable">
+        <thead>
+            <tr>
+                <th>Product</th>
+                @for (int i = 0; i < Model.Locations.Count; ++i)
+                {
+                    <th>@Html.FormatValue(Model.Locations[i].Name, "{0}")</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @for (int j = 0; j < Model.Locations[0].Inventory.Count; ++j)
+            {
+                <tr>
+                    <td>@Html.FormatValue(Model.Locations[0].Inventory[j].Name, "{0}")</td>
+                    @for (int i = 0; i < Model.Locations.Count; ++i)
+                    {
+                        if (j == 0)
                         {
-                            <tr>
-                                @Html.HiddenFor(m => m.Locations[i].Inventory[j].Id)
-                                @Html.HiddenFor(m => m.Locations[i].Inventory[j].Name)
-                                @Html.HiddenFor(m => m.Locations[i].Inventory[j].OldQuantity)
-                                <td>@Html.FormatValue(Model.Locations[i].Inventory[j].Name, "{0}")</td>
-                                <td>@Html.TextBoxFor(m => m.Locations[i].Inventory[j].Quantity, new { @class = "spinner" })
-                                    (was @Html.FormatValue(Model.Locations[i].Inventory[j].OldQuantity, "{0}"))
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                <input type="submit" value="Transfer" class="button" />
-            </div>
-        }
-    }
-</div>
+                            @Html.HiddenFor(m => m.Locations[i].Id)
+                            @Html.HiddenFor(m => m.Locations[i].Name)
+                        }   
+                        @Html.HiddenFor(m => m.Locations[i].Inventory[j].Id)
+                        @Html.HiddenFor(m => m.Locations[i].Inventory[j].Name)
+                        @Html.HiddenFor(m => m.Locations[i].Inventory[j].OldQuantity)
+                        <td>@Html.TextBoxFor(m => m.Locations[i].Inventory[j].Quantity, new { @class = "spinner" })
+                            (was @Html.FormatValue(Model.Locations[i].Inventory[j].OldQuantity, "{0}"))
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <input type="submit" value="Transfer" class="button" />
+}
