@@ -15,6 +15,9 @@ namespace _5Bites.Models.Inventory_.Purchase
         public decimal Price { get; set; }
 
         [Required]
+        [Range(0.0, Double.PositiveInfinity)]
         public int Quantity { get; set; }
+
+        public int OldQuantity { get; set; }
     }
 }

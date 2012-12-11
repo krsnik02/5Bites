@@ -58,6 +58,7 @@ namespace _5Bites.Controllers
             return RedirectToAction("Transfer", "Inventory");
         }
 
+        [HttpGet]
         public ActionResult Purchase()
         {
             int EmployeeId = (int)Session.Contents["EmployeeId"];
@@ -79,7 +80,7 @@ namespace _5Bites.Controllers
                         pm.Id = p.Id;
                         pm.Name = p.Name;
                         pm.Price = p.WholesalePrice;
-                        pm.Quantity = p.Inventories.SingleOrDefault(i => i.Location == l).Quantity;
+                        pm.OldQuantity = p.Inventories.SingleOrDefault(i => i.Location == l).Quantity;
                         lm.Inventory.Add(pm);
                     }
                     m.Locations.Add(lm);
@@ -90,18 +91,25 @@ namespace _5Bites.Controllers
         }
 
         [HttpPost]
-        public ActionResult Purchase(Models.Inventory_.Purchase.LocationModel m)
+        public ActionResult Purchase(Models.Inventory_.Purchase.ViewModel m)
         {
-            using (var db = new dbEntities())
+            if (ModelState.IsValid)
             {
-                foreach (var pm in m.Inventory)
+                using (var db = new dbEntities())
                 {
-                    db.Inventories.Single(i => i.LocationId == m.Id && i.ProductId == pm.Id).Quantity = pm.Quantity;
+                    foreach (var lm in m.Locations)
+                    {
+                        foreach (var pm in lm.Inventory)
+                        {
+                            db.Inventories.Single(i => i.LocationId == lm.Id && i.ProductId == pm.Id).Quantity += pm.Quantity;
+                        }
+                    }
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
-            }
 
-            return RedirectToAction("Purchase", "Inventory");
+                return RedirectToAction("Purchase", "Inventory");
+            }
+            return View();
         }
 
     }

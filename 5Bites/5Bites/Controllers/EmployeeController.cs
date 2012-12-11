@@ -198,38 +198,42 @@ namespace _5Bites.Controllers
         [HttpPost]
         public ActionResult Permissions(_5Bites.Models.Employee_.Permissions.ViewModel m)
         {
-            using (var db = new dbEntities())
+            if (ModelState.IsValid)
             {
-                var e = db.Employees.Single(e_ => e_.Id == m.Id);
-                e.IsAdmin = m.IsAdmin;
-
-                e.EmployeeStores.Clear();
-                e.EmployeeLocations.Clear();
-                db.EmployeeStores.Where(el => el.EmployeeId == e.Id)
-                    .ToList().ForEach(el => db.EmployeeStores.Remove(el));
-                db.EmployeeLocations.Where(el => el.EmployeeId == e.Id)
-                    .ToList().ForEach(el => db.EmployeeLocations.Remove(el));
-
-                foreach (var s in m.Stores.Where(s => s.HasAccess))
+                using (var db = new dbEntities())
                 {
-                    var es = new EmployeeStore();
-                    es.Employee = e;
-                    es.StoreId = s.Id;
-                    db.EmployeeStores.Add(es);
+                    var e = db.Employees.Single(e_ => e_.Id == m.Id);
+                    e.IsAdmin = m.IsAdmin;
+
+                    e.EmployeeStores.Clear();
+                    e.EmployeeLocations.Clear();
+                    db.EmployeeStores.Where(el => el.EmployeeId == e.Id)
+                        .ToList().ForEach(el => db.EmployeeStores.Remove(el));
+                    db.EmployeeLocations.Where(el => el.EmployeeId == e.Id)
+                        .ToList().ForEach(el => db.EmployeeLocations.Remove(el));
+
+                    foreach (var s in m.Stores.Where(s => s.HasAccess))
+                    {
+                        var es = new EmployeeStore();
+                        es.Employee = e;
+                        es.StoreId = s.Id;
+                        db.EmployeeStores.Add(es);
+                    }
+
+                    foreach (var l in m.Locations.Where(l => l.HasAccess))
+                    {
+                        var el = new EmployeeLocation();
+                        el.Employee = e;
+                        el.LocationId = l.Id;
+                        db.EmployeeLocations.Add(el);
+                    }
+
+                    db.SaveChanges();
                 }
 
-                foreach (var l in m.Locations.Where(l => l.HasAccess))
-                {
-                    var el = new EmployeeLocation();
-                    el.Employee = e;
-                    el.LocationId = l.Id;
-                    db.EmployeeLocations.Add(el);
-                }
-
-                db.SaveChanges();
+                return RedirectToAction("Manage", "Employee");
             }
-
-            return RedirectToAction("Manage", "Employee");
+            return View();
         }
     }
 }

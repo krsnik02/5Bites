@@ -364,7 +364,6 @@
     <Content Include="Views\Employee\Account.cshtml" />
     <Content Include="Views\Employee\Permissions.cshtml" />
     <Content Include="Views\Inventory\Purchase.cshtml" />
-    <Content Include="Views\Shared\InventoryPurchasePartial.cshtml" />
     <Content Include="Views\Store\ConfirmSale.cshtml" />
     <Content Include="Views\Home\Transactions.cshtml" />
   </ItemGroup>

@@ -25,10 +25,40 @@
             <li><a href="@("#tab-" + location.Id)">@location.Name</a></li>
         }
     </ul>
-    @foreach (var location in Model.Locations)
+    
+    @using (Html.BeginForm("Purchase", "Inventory"))
     {
-        <div id="@("tab-" + location.Id)">
-            @Html.Partial("InventoryPurchasePartial", location)
-        </div>
+        for (int j = 0; j < Model.Locations.Count; ++j)
+        {
+            <div id="@("tab-" + Model.Locations[j].Id)">
+                @Html.HiddenFor(m => m.Locations[j].Id)
+                <table class="datatable">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Locations[j].Inventory.Count; ++i)
+                        {
+                            <tr>
+                                @Html.HiddenFor(m => m.Locations[j].Inventory[i].Id)
+                                @Html.HiddenFor(m => m.Locations[j].Inventory[i].Price)
+                                @Html.HiddenFor(m => m.Locations[j].Inventory[i].OldQuantity)
+                                <td>@Html.FormatValue(Model.Locations[j].Inventory[i].Name, "{0}")</td>
+                                <td>@Html.FormatValue(Model.Locations[j].Inventory[i].Price, "{0:C2}")</td>
+                                <td>@Html.TextBoxFor(m => m.Locations[j].Inventory[i].Quantity)
+                                    (have @Html.FormatValue(Model.Locations[j].Inventory[i].OldQuantity, "{0}"))
+                                    @Html.ValidationMessageFor(m => m.Locations[j].Inventory[i].Quantity)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <input type="submit" value="Purchase" />
+            </div>
+        }
     }
 </div>
