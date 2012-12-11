@@ -71,7 +71,11 @@ namespace _5Bites.Controllers
         [HttpPost]
         public ActionResult ConfirmSale(_5Bites.Models.Store_.Sell.StoreModel m)
         {
-            return View(m);
+            if (ModelState.IsValid)
+            {
+                return View(m);
+            }
+            return RedirectToAction("Sell", "Store");
         }
 
         [HttpPost]

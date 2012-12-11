@@ -1,5 +1,6 @@
 ﻿@model _5Bites.Models.Store_.Sell.StoreModel
 
+@{ Html.EnableClientValidation(); }
 @using (Html.BeginForm("ConfirmSale", "Store"))
 {
     @Html.HiddenFor(m => m.Id)
@@ -25,6 +26,7 @@
                     <td>@Html.FormatValue(Model.Inventory[i].Price, "{0:C2}")</td>
                     <td>@Html.TextBoxFor(m => m.Inventory[i].Quantity, new { @Value = 0 })
                         (of @Html.FormatValue(Model.Inventory[i].Quantity, "{0}"))
+                        @Html.ValidationMessageFor(m => m.Inventory[i].Quantity)
                     </td>
                 </tr>
             }

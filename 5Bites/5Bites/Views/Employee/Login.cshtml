@@ -5,12 +5,14 @@
 }
 
 <h2>Login</h2>
-@using(Html.BeginForm("Login", "Employee"))
+@{ Html.EnableClientValidation(); }
+@using (Html.BeginForm("Login", "Employee"))
 {
-    @Html.ValidationSummary()
-    @Html.LabelFor(model => model.Username)
-    @Html.TextBoxFor(model => model.Username)
-    @Html.LabelFor(model => model.Password)
-    @Html.PasswordFor(model => model.Password)
+    @Html.LabelFor(m => m.Username)
+    @Html.TextBoxFor(m => m.Username)
+    @Html.ValidationMessageFor(m => m.Username)
+    @Html.LabelFor(m => m.Password)
+    @Html.PasswordFor(m => m.Password)
+    @Html.ValidationMessageFor(m => m.Password)
     <input type="submit" value="Login" />
 }
