@@ -11,6 +11,7 @@
             $('.tabs').tabs();
             $('.datatable').dataTable();
             $('.button').button();
+            $('.spinner').spinner();
         });
     </script>
 }
@@ -48,7 +49,7 @@
                                 @Html.HiddenFor(m => m.Locations[i].Inventory[j].Name)
                                 @Html.HiddenFor(m => m.Locations[i].Inventory[j].OldQuantity)
                                 <td>@Html.FormatValue(Model.Locations[i].Inventory[j].Name, "{0}")</td>
-                                <td>@Html.TextBoxFor(m => m.Locations[i].Inventory[j].Quantity)
+                                <td>@Html.TextBoxFor(m => m.Locations[i].Inventory[j].Quantity, new { @class = "spinner" })
                                     (was @Html.FormatValue(Model.Locations[i].Inventory[j].OldQuantity, "{0}"))
                                 </td>
                             </tr>
