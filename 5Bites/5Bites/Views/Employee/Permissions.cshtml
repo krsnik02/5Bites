@@ -4,6 +4,15 @@
 
 @model _5Bites.Models.Employee_.Permissions.ViewModel
 
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.button').button();
+        });
+    </script>
+}
+
 <h2>Permissions For @Model.Username</h2>
 
 @using (Html.BeginForm("Permissions", "Employee", new { id = UrlParameter.Optional }))
@@ -30,5 +39,5 @@
             @Html.CheckBoxFor(m => m.Locations[i].HasAccess)
         }
     </div>
-    <input type="submit" value="Update" />
+    <input type="submit" value="Update" class="button" />
 }

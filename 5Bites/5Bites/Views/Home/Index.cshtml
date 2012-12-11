@@ -2,6 +2,15 @@
     ViewBag.Title = "Welcome " + Session.Contents["EmployeeName"] +"!";
 }
 
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.button').button();
+        });
+    </script>
+}
+
 <h2>Welcome @Session.Contents["EmployeeName"]!</h2>
 
 <p>@Html.ActionLink("Sell Items", "Sell", "Store")</p>

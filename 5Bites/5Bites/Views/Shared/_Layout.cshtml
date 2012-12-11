@@ -17,7 +17,16 @@
                 </div>
                 <div class="float-right">
                     <section id="login">
-                        @Html.Partial("LoginPartial")
+                        @if (Session.Contents["EmployeeId"] == null)
+                        {
+                            @Html.ActionLink("Login", "Login", "Employee")
+                        }
+                        else
+                        {
+                            @Html.FormatValue((string)Session.Contents["EmployeeName"], "Welcome {0}!")
+                            @Html.ActionLink("Account", "Account", "Employee")
+                            @Html.ActionLink("Logout", "Logout", "Employee")
+                        }
                     </section>
                     <nav>
                         <ul id="menu">
@@ -44,7 +53,10 @@
         @Scripts.Render("~/bundles/jqueryui")
         @Scripts.Render("~/bundles/jqueryval")
         <script src="~/Scripts/jquery.dataTables.min.js"></script>
+
         @Styles.Render("~/Content/themes/base/css")
+        <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+
         @RenderSection("scripts", required: false)
     </body>
 </html>

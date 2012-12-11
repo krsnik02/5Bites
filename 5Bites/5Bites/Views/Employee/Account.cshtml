@@ -4,6 +4,15 @@
     ViewBag.Title = "Account";
 }
 
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.button').button();
+        });
+    </script>
+}
+
 <h2>Account for @Session.Contents["EmployeeName"]</h2>
 
 @using (Html.BeginForm("Account", "Employee"))
@@ -16,5 +25,5 @@
     @Html.PasswordFor(m => m.NewPassword)
     @Html.ValidationMessageFor(m => m.NewPassword)
 
-    <input type="submit" value="Change Password" />
+    <input type="submit" value="Change Password" class="button" />
 }

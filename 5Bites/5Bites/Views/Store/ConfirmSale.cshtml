@@ -4,6 +4,15 @@
     ViewBag.Title = "Confirm Sale";
 }
 
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.button').button();
+        });
+    </script>
+}
+
 @foreach (var s in Model.Stores)
 {
     decimal tot_sales = s.Inventory.Where(pm => pm.QuantitySold != 0).Sum(pm => pm.QuantitySold * pm.Price);
@@ -49,6 +58,6 @@
             @Html.HiddenFor(m => m.Stores[j].Inventory[i].QuantitySold)
         }
     }
-    <input type="submit" value="Confirm" />
-    @Html.ActionLink("Cancel", "Sell", "Store");
+    <input type="submit" value="Confirm" class="button" />
+    <button class="button">@Html.ActionLink("Cancel", "Sell", "Store", new { @class = "button" })</button>
 }

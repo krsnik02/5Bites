@@ -11,32 +11,37 @@
             $('.datatable').dataTable({
                 'aaSorting' : [[4, 'desc']]
             });
+            $('.button').button();
+            $('.tabs').tabs();
         });
     </script>
 }
 
 <h2>Transactions</h2>
 
-<table class="datatable">
-    <thead>
-        <tr>
-            <th>Employee</th>
-            <th>Store</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Timestamp</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var transaction in Model.Transactions)
-        {
-            <tr>
-                <td>@Html.FormatValue(transaction.EmployeeName, "{0}")</td>
-                <td>@Html.FormatValue(transaction.StoreName, "{0}")</td>
-                <td>@Html.FormatValue(transaction.ProductName, "{0}")</td>
-                <td>@Html.FormatValue(transaction.Quantity, "{0}")</td>
-                <td>@Html.FormatValue(transaction.Timestamp, "{0:MM/dd/yyyy H:mm:ss}")</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="ui-widget ui-widget-content ui-corner-all">
+    <div id="tab-trans">
+        <table class="datatable">
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Store</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transaction in Model.Transactions)
+                {
+                    <tr>
+                        <td>@Html.FormatValue(transaction.EmployeeName, "{0}")</td>
+                        <td>@Html.FormatValue(transaction.StoreName, "{0}")</td>
+                        <td>@Html.FormatValue(transaction.ProductName, "{0}")</td>
+                        <td>@Html.FormatValue(transaction.Quantity, "{0}")</td>
+                        <td>@Html.FormatValue(transaction.Timestamp, "{0:MM/dd/yyyy H:mm:ss}")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>

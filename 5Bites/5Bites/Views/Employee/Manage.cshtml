@@ -6,13 +6,11 @@
 
 @section scripts
 {
-    @Scripts.Render("~/bundles/jqueryui")
-    @Styles.Render("~/Content/themes/base/css")
-    <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('.tabs').tabs();
             $('.datatable').dataTable();
+            $('.button').button();
         });
     </script>
 }
@@ -37,7 +35,7 @@
                 {
                     <tr>
                         <td>@employee.Username</td>
-                        <td>@Html.ActionLink("Edit Permissions", "Permissions", "Employee", new { id = employee.Id }, new { })</td>
+                        <td>@Html.ActionLink("Edit Permissions", "Permissions", "Employee", new { id = employee.Id })</td>
                     </tr>
                 }
             </tbody>
@@ -74,7 +72,7 @@
                 }
             </div>
     
-            <input type="submit" value="Hire" />
+            <input type="submit" value="Hire" class="button" />
         }
     </div>
 </div>
