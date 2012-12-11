@@ -30,7 +30,8 @@ namespace _5Bites.Controllers
                         var pm = new Models.Inventory_.Transfer.ProductModel();
                         pm.Id = p.Id;
                         pm.Name = p.Name;
-                        pm.Quantity = p.Inventories.SingleOrDefault(i => i.Location == l).Quantity;
+                        pm.OldQuantity = p.Inventories.SingleOrDefault(i => i.Location == l).Quantity;
+                        pm.Quantity = pm.OldQuantity;
                         lm.Inventory.Add(pm);
                     }
                     m.Locations.Add(lm);
@@ -43,19 +44,23 @@ namespace _5Bites.Controllers
         [HttpPost]
         public ActionResult Transfer(Models.Inventory_.Transfer.ViewModel m)
         {
-            using (var db = new dbEntities())
+            if (ModelState.IsValid)
             {
-                foreach (var lm in m.Locations)
+                using (var db = new dbEntities())
                 {
-                    foreach (var pm in lm.Inventory)
+                    foreach (var lm in m.Locations)
                     {
-                        db.Inventories.Single(i => i.LocationId == lm.Id && i.ProductId == pm.Id).Quantity = pm.Quantity;
+                        foreach (var pm in lm.Inventory)
+                        {
+                            db.Inventories.Single(i => i.LocationId == lm.Id && i.ProductId == pm.Id).Quantity = pm.Quantity;
+                        }
                     }
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
-            }
 
-            return RedirectToAction("Transfer", "Inventory");
+                return RedirectToAction("Transfer", "Inventory");
+            }
+            return View(m);
         }
 
         [HttpGet]
