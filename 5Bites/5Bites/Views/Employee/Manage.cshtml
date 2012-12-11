@@ -8,22 +8,30 @@
 {
     @Scripts.Render("~/bundles/jqueryui")
     @Styles.Render("~/Content/themes/base/css")
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#tabs').tabs();
+            $('.tabs').tabs();
+            $('.datatable').dataTable();
         });
     </script>
 }
 
 <h2>Employees</h2>
 
-<div id="tabs">
+<div class="tabs">
     <ul>
         <li><a href="#tab-manage">Manage</a></li>
         <li><a href="#tab-hire">Hire</a></li>
     </ul>
     <div id="tab-manage">
-        <table>
+        <table class="datatable">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Permissions</th>
+                </tr>
+            </thead>
             <tbody>
                 @foreach (var employee in Model.Employees)
                 {
