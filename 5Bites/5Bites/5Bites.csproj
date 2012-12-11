@@ -203,6 +203,8 @@
     <Compile Include="Models\Employee\Permissions\LocationModel.cs" />
     <Compile Include="Models\Employee\Permissions\ViewModel.cs" />
     <Compile Include="Models\Employee\Permissions\StoreModel.cs" />
+    <Compile Include="Models\Home\Transactions\TransactionModel.cs" />
+    <Compile Include="Models\Home\Transactions\ViewModel.cs" />
     <Compile Include="Models\Inventory.cs">
       <DependentUpon>5BitesDBModel.tt</DependentUpon>
     </Compile>
@@ -364,6 +366,7 @@
     <Content Include="Views\Inventory\Purchase.cshtml" />
     <Content Include="Views\Shared\InventoryPurchasePartial.cshtml" />
     <Content Include="Views\Store\ConfirmSale.cshtml" />
+    <Content Include="Views\Home\Transactions.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

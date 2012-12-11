@@ -17,5 +17,12 @@ namespace _5Bites.Controllers
                 return RedirectToAction("Inventory", "Store");
             return View();
         }
+
+        [HttpGet]
+        public ActionResult Transactions()
+        {
+            var m = new _5Bites.Models.Home.Transactions.ViewModel();
+            return View(m);
+        }
     }
 }
