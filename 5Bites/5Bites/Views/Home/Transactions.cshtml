@@ -6,12 +6,11 @@
 
 @section scripts
 {
-    @Scripts.Render("~/bundles/jqueryui")
-    <script src="~/Scripts/jquery.dataTables.min.js"></script>
-    @Styles.Render("~/Content/themes/base/css")  
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.datatable').dataTable();
+            $('.datatable').dataTable({
+                'aaSorting' : [[4, 'desc']]
+            });
         });
     </script>
 }
