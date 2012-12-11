@@ -119,19 +119,19 @@ namespace _5Bites.Controllers
         }
 
         [HttpPost]
-        public ActionResult Hire(Models.Employee_.Hire.ViewModel m)
+        public ActionResult Hire(Models.Employee_.Manage.ViewModel m)
         {
             SHA256 sha256 = new SHA256Managed();
-            byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Password));
+            byte[] hashed = sha256.ComputeHash(Encoding.UTF8.GetBytes(m.Hire.Password));
 
             using (var db = new dbEntities())
             {
                 var e = new Employee();
-                e.Username = m.Username;
+                e.Username = m.Hire.Username;
                 e.Password = hashed;
-                e.IsAdmin = m.IsAdmin;
+                e.IsAdmin = m.Hire.IsAdmin;
 
-                foreach (var s in m.Stores.Where(s => s.HasAccess))
+                foreach (var s in m.Hire.Stores.Where(s => s.HasAccess))
                 {
                     var es = new EmployeeStore();
                     es.Employee = e;
@@ -139,7 +139,7 @@ namespace _5Bites.Controllers
                     e.EmployeeStores.Add(es);
                 }
 
-                foreach (var l in m.Locations.Where(l => l.HasAccess))
+                foreach (var l in m.Hire.Locations.Where(l => l.HasAccess))
                 {
                     var el = new EmployeeLocation();
                     el.Employee = e;
