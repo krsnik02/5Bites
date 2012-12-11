@@ -69,40 +69,47 @@ namespace _5Bites.Controllers
         }
 
         [HttpPost]
-        public ActionResult ConfirmSale(_5Bites.Models.Store_.Sell.StoreModel m)
+        public ActionResult ConfirmSale(_5Bites.Models.Store_.Sell.ViewModel m)
         {
             if (ModelState.IsValid)
             {
                 return View(m);
             }
-            return RedirectToAction("Sell", "Store");
+            return View("Sell", m);
         }
 
         [HttpPost]
-        public ActionResult Sell(_5Bites.Models.Store_.Sell.StoreModel m)
+        public ActionResult Sell(_5Bites.Models.Store_.Sell.ViewModel m)
         {
-            int EmployeeId = (int)Session.Contents["EmployeeId"];
-
-            using (var db = new dbEntities())
+            if (ModelState.IsValid)
             {
-                var s = db.Stores.Single(s_ => s_.Id == m.Id);
-                foreach (var pm in m.Inventory.Where(pm => pm.Quantity != 0))
+                int EmployeeId = (int)Session.Contents["EmployeeId"];
+
+                using (var db = new dbEntities())
                 {
-                    var t = new Transaction();
-                    t.ProductId = pm.Id;
-                    t.StoreId = m.Id;
-                    t.EmployeeId = EmployeeId;
-                    t.Quantity = pm.Quantity;
-                    t.Timestamp = DateTime.Now;
-                    db.Transactions.Add(t);
+                    foreach (var sm in m.Stores)
+                    {
+                        var s = db.Stores.Single(s_ => s_.Id == sm.Id);
+                        foreach (var pm in sm.Inventory.Where(pm => pm.QuantitySold != 0))
+                        {
+                            var t = new Transaction();
+                            t.ProductId = pm.Id;
+                            t.StoreId = sm.Id;
+                            t.EmployeeId = EmployeeId;
+                            t.Quantity = pm.QuantitySold;
+                            t.Timestamp = DateTime.Now;
+                            db.Transactions.Add(t);
 
-                    s.Location.Inventories.Single(i => i.ProductId == pm.Id).Quantity -= pm.Quantity;
+                            s.Location.Inventories.Single(i => i.ProductId == pm.Id).Quantity -= pm.QuantitySold;
+                        }
+                        s.Bank += sm.Inventory.Sum(pm => pm.QuantitySold * pm.Price);
+                    }
+                    db.SaveChanges();
                 }
-                s.Bank += m.Inventory.Sum(pm => pm.Quantity * pm.Price);
-                db.SaveChanges();
-            }
 
-            return RedirectToAction("Sell", "Store");
+                return RedirectToAction("Sell", "Store");
+            }
+            return View(m);
         }
 
     }

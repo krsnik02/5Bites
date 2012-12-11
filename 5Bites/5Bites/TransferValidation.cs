@@ -9,7 +9,12 @@ namespace _5Bites
 {
     public class TransferValidation : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        public TransferValidation()
+            : base("Transfer can neither create nor destroy inventory!")
+        {
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             List<LocationModel> val = (List<LocationModel>)value;
             for (int i = 0; i < val[0].Inventory.Count; ++i)
@@ -18,10 +23,10 @@ namespace _5Bites
                 int new_ = val.Sum(l => l.Inventory[i].Quantity);
                 if (old_ != new_)
                 {
-                    return false;
+                    return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
                 }
             }
-            return true;
+            return null;
         }
     }
 }

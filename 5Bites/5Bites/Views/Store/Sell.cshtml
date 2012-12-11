@@ -22,10 +22,43 @@
             <li><a href="@("#tab-" + store.Id)">@store.Name</a></li>
         }
     </ul>
-    @foreach (var store in Model.Stores)
+    @using (Html.BeginForm("ConfirmSale", "Store"))
     {
-        <div id="@("tab-" + store.Id)">
-            @Html.Partial("StoreSellPartial", store)
-        </div>
+        for (int j = 0; j < Model.Stores.Count; ++j)
+        {
+            <div id="@("tab-" + Model.Stores[j].Id)">
+                    @Html.HiddenFor(m => m.Stores[j].Id)
+                    @Html.HiddenFor(m => m.Stores[j].Name)
+                    @Html.FormatValue(Model.Stores[j].Bank, "{0:C2}")
+
+                    <table class="datatable">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Stores[j].Inventory.Count; ++i)
+                            {
+                                <tr>
+                                    @Html.HiddenFor(m => m.Stores[j].Inventory[i].Id)
+                                    @Html.HiddenFor(m => m.Stores[j].Inventory[i].Description)
+                                    @Html.HiddenFor(m => m.Stores[j].Inventory[i].Price)
+                                    @Html.HiddenFor(m => m.Stores[j].Inventory[i].Quantity)
+                                    <td>@Html.FormatValue(Model.Stores[j].Inventory[i].Description, "{0}")</td>
+                                    <td>@Html.FormatValue(Model.Stores[j].Inventory[i].Price, "{0:C2}")</td>
+                                    <td>@Html.TextBoxFor(m => m.Stores[j].Inventory[i].QuantitySold)
+                                        (of @Html.FormatValue(Model.Stores[j].Inventory[i].Quantity, "{0}"))
+                                        @Html.ValidationMessageFor(m => m.Stores[j].Inventory[i].QuantitySold)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <input type="submit" value="Sell" />
+            </div>          
+        }
     }
 </div>

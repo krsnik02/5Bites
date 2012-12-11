@@ -1,21 +1,53 @@
-﻿@model _5Bites.Models.Store_.Sell.StoreModel
+﻿@model _5Bites.Models.Store_.Sell.ViewModel
 
 @{
     ViewBag.Title = "Confirm Sale";
-    decimal TotalSales = Model.Inventory.Where(pm => pm.Quantity != 0).Sum(pm => pm.Quantity * pm.Price);
 }
 
-<h2>@Html.FormatValue(Model.Name, "{0}")</h2>
-<p>Please confirm sale of @Html.FormatValue(TotalSales,"{0:C2}").</p>
+@foreach (var s in Model.Stores)
+{
+    decimal tot_sales = s.Inventory.Where(pm => pm.QuantitySold != 0).Sum(pm => pm.QuantitySold * pm.Price);
+    if (tot_sales != 0.0M)
+    {
+        <h2>@Html.FormatValue(s.Name, "{0}")</h2>
+        <p>Confirm sale of @Html.FormatValue(tot_sales, "{0:C2}")</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in s.Inventory)
+                {
+                    if (p.QuantitySold != 0)
+                    {
+                        <tr>
+                            <td>@Html.FormatValue(p.Description, "{0}")</td>
+                            <td>@Html.FormatValue(p.QuantitySold, "{0}")</td>
+                            <td>@Html.FormatValue(p.Price, "{0:C2}")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+}
 
 @using (Html.BeginForm("Sell", "Store"))
 {
-    @Html.HiddenFor(m => m.Id)
-    for (int i = 0; i < Model.Inventory.Count; ++i)
+    for (int j = 0; j < Model.Stores.Count; ++j)
     {
-        @Html.HiddenFor(m => m.Inventory[i].Id)
-        @Html.HiddenFor(m => m.Inventory[i].Price)
-        @Html.HiddenFor(m => m.Inventory[i].Quantity)
+        @Html.HiddenFor(m => m.Stores[j].Id)
+        for (int i = 0; i < Model.Stores[j].Inventory.Count; ++i)
+        {
+            @Html.HiddenFor(m => m.Stores[j].Inventory[i].Id)
+            @Html.HiddenFor(m => m.Stores[j].Inventory[i].Price)
+            @Html.HiddenFor(m => m.Stores[j].Inventory[i].Quantity)
+            @Html.HiddenFor(m => m.Stores[j].Inventory[i].QuantitySold)
+        }
     }
     <input type="submit" value="Confirm" />
     @Html.ActionLink("Cancel", "Sell", "Store");
