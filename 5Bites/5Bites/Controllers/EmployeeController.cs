@@ -28,6 +28,7 @@ namespace _5Bites.Controllers
 
                 using (var db = new dbEntities())
                 {
+                    // Note: this works as LINQ translates this to a SQL comparison, where byte[] are compared properly.
                     var employee = db.Employees.SingleOrDefault(
                         e => e.Username == m.Username && e.Password == hashed);
                     if (employee == null)
@@ -61,7 +62,8 @@ namespace _5Bites.Controllers
                 using (var db = new dbEntities())
                 {
                     var e = db.Employees.Single(e_ => e_.Id == EmployeeId);
-                    if (e.Password == oldhashed) e.Password = newhashed;
+                    if (e.Password.SequenceEqual(oldhashed)) 
+                        e.Password = newhashed;
                     db.SaveChanges();
                 }
                 return RedirectToAction("Index", "Home");
